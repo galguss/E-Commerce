@@ -13,6 +13,8 @@ const port = 3000;
 app.use(express.static(path.join(__dirname ,'../public')));
 app.use(express.json());
 app.use(morgan('dev'));
+
+app.set('views', path.join(__dirname, 'views'));
 app.set("view engine", "ejs");
 
 app.listen(port, (req, res) => {
@@ -29,3 +31,10 @@ database.on('error', (error) => {
 database.once('connected', () => {
     console.log(`Now listening on port ${port}`);
 });
+
+app.get('/', (req, res) => {
+    res.render('Index');
+});
+
+const users = require('./routes/user_R');
+app.use('/user', users);
