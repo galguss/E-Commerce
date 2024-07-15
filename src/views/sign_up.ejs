@@ -23,10 +23,10 @@
           <input type="text" id="address" name="address" value="<%= user.address %>" require />
           <label for="phone_number">Phone Number:</label>
           <input type="text" id="phone_number" name="phone_number" value="<%= user.phoneNumber %>" require />
-          <span id="message"></span>
+          <span id="message_error"></span>
         </div>
         <span>User exist?</span>
-        <a href="/user/signin">Sign In</a>
+        <a href="/user/sign-in">Sign In</a>
 
         <button class="submit">Submit</button>
       </form>
@@ -38,7 +38,7 @@
           event.preventDefault();
 
           $.ajax({
-            url: "/user/singup",
+            url: "/user/sing-up",
             method: "POST",
             contentType: "application/json",
             data: JSON.stringify({
@@ -50,15 +50,9 @@
             }),
             success: function (response) {
               window.location.href = "/";
-              /* $('#message').text(response.message);
-                        $('#full_name').val('');
-                        $('#email').val('');
-                        $('#password').val('');
-                        $('#address').val('');
-                        $('#phone_number').val('');*/
             },
             error: function (error) {
-              $("#message").text(error?.responseJSON?.message);
+              $("#message_error").text(error?.responseJSON?.message);
             },
           });
         });

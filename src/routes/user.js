@@ -2,10 +2,12 @@ const router = require('express').Router();
 
 const { showSignUp, signUp, showSignIn, signIn, logout } = require("../controllers/user");
 
-router.get("/signup", showSignUp);
-router.post("/singup", signUp);
-router.get("/signin", showSignIn);
-router.post("/signin", signIn);
+router.get("/sign-up", showSignUp);
+router.post("/sing-up", signUp);
+
+router.get("/sign-in", showSignIn);
+router.post("/sign-in", signIn);
+
 router.get("/logout", logout);
 
 module.exports = router;

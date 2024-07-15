@@ -17,10 +17,10 @@
           <input type="email" id="email" name="email" require />
           <label for="password">Password:</label>
           <input type="password" id="password" name="password" require />
-          <span id="message"></span>
+          <span id="message_error"></span>
         </div>
         <span>User does not exist?</span>
-        <a href="/user/signup">Sign Up</a>
+        <a href="/user/sign-up">Sign Up</a>
 
         <button class="submit">Sign In</button>
       </form>
@@ -33,7 +33,7 @@
           event.preventDefault();
 
           $.ajax({
-            url: "/user/signin/",
+            url: "/user/sign-in/",
             method: "POST",
             contentType: "application/json",
             data: JSON.stringify({
@@ -41,17 +41,10 @@
               password: $("#password").val(),
             }),
             success: function (response) {
-              //const user = await response
               window.location.href = "/";
-              /* $('#message').text(response.message);
-                        $('#full_name').val('');
-                        $('#email').val('');
-                        $('#password').val('');
-                        $('#address').val('');
-                        $('#phone_number').val('');*/
             },
             error: function (error) {
-              $("#message").text(error?.responseJSON?.message);
+              $("#message_error").text(error?.responseJSON?.message);
             },
           });
         });
