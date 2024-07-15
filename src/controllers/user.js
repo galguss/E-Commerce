@@ -9,7 +9,9 @@ const showSignUp = (req, res) => {
 
 const signUp = async (req, res) => {
   try {
-    const { email, password, fullName, address, phoneNumber } = signUpSchema.parse(req.body);
+    const { email, password, fullName, address, phoneNumber } = signUpSchema.parse(
+      req.body
+    );
 
     const emailExists = await User.findOne({ email });
 
@@ -17,7 +19,7 @@ const signUp = async (req, res) => {
       return res.status(422).json({ message: "Email already exists" });
     }
 
-    const hashedPassword = hash(password);
+    const hashedPassword = await hash(password);
 
     const user = new User({
       email,
@@ -56,14 +58,17 @@ const signIn = async (req, res) => {
       return res.status(401).json({ message: "Incorrect email or password" });
     }
 
-    const user = emailExists;
+    const user = emailExists;   
     const userIsLogin = await compareHash(password, user.password);
 
     if (userIsLogin) {
       const token = generateToken(user._id, user.email);
       req.session.isLogged = true;
+      
       res.cookie("token", token, { httpOnly: true });
+
       res.redirect("/");
+
       return res.status(200).json({ message: "Auth success" });
     }
 
