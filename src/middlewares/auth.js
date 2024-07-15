@@ -6,18 +6,18 @@ const auth = async (req, res, next) => {
     const token = req.cookies.token;
 
     if (!token || !token.length) {
-      throw new Error("token not found");
+      throw new Error("Token not found");
     }
     const decoded = verifyToken(token, process.env.JWT_SECRET);
 
     if (!decoded) {
-      throw new Error("token not valid");
+      throw new Error("Token not valid");
     }
 
     const user = await User.findById(decoded.id);
 
     if (!user) {
-      throw new Error("user not found");
+      throw new Error("User not found");
     }
 
     req.user = user;

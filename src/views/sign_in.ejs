@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="/css/main.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.min.css"
+    />
     <title>Dynamic production line</title>
   </head>
   <body>
@@ -12,7 +15,7 @@
     <main class="container">
       <h2 class="title">Sign in</h2>
       <form id="sing_in">
-        <div class="sign_in__from"> 
+        <div class="sign_in__from">
           <label for="email">Email:</label>
           <input type="email" id="email" name="email" require />
           <label for="password">Password:</label>
@@ -27,11 +30,9 @@
     </main>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script>
-      console.log("ajax");
       $(document).ready(function () {
         $("#sing_in").submit(function (event) {
           event.preventDefault();
-
           $.ajax({
             url: "/user/sign-in/",
             method: "POST",

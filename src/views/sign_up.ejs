@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="/css/main.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.min.css"
+    />
     <title>Dynamic production line</title>
   </head>
   <body>
@@ -14,15 +17,45 @@
       <form id="sing_up">
         <div class="sign_up__from">
           <label for="full_name">Full Name:</label>
-          <input type="text" id="full_name" name="full_name" value="<%= user.fullName %>" require />
+          <input
+            type="text"
+            id="full_name"
+            name="full_name"
+            value="<%= user.fullName %>"
+            require
+          />
           <label for="email">Email:</label>
-          <input type="email" id="email" name="email" value="<%= user.email %>" require />
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value="<%= user.email %>"
+            require
+          />
           <label for="password">Password:</label>
-          <input type="password" id="password" name="password" value="<%= user.password %>" require />
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value="<%= user.password %>"
+            require
+          />
           <label for="address">Address:</label>
-          <input type="text" id="address" name="address" value="<%= user.address %>" require />
+          <input
+            type="text"
+            id="address"
+            name="address"
+            value="<%= user.address %>"
+            require
+          />
           <label for="phone_number">Phone Number:</label>
-          <input type="text" id="phone_number" name="phone_number" value="<%= user.phoneNumber %>" require />
+          <input
+            type="text"
+            id="phone_number"
+            name="phone_number"
+            value="<%= user.phoneNumber %>"
+            require
+          />
           <span id="message_error"></span>
         </div>
         <span>User exist?</span>
@@ -36,7 +69,6 @@
       $(document).ready(function () {
         $("#sing_up").submit(function (event) {
           event.preventDefault();
-
           $.ajax({
             url: "/user/sing-up",
             method: "POST",
