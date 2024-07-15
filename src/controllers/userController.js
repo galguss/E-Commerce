@@ -1,59 +1,94 @@
-const jwt = require('jsonwebtoken');
-const Users = require('../modules/user_M');
-const Encryption_M = require('../modules/Encryption_M');
+const jwt = require("jsonwebtoken");
+const User = require("../modules/User");
+const { signInSchema, signUpSchema } = require("../lib/validators/auth");
+const { z } = require("zod");
+const { hash, compareHash } = require("../lib/utils");
 
-exports.showSignUp = (req, res) => {
-    res.render('sign_up', {user : {}, isLogged: req.session.isLogged });
-}
+const showSignUp = (req, res) => {
+  res.render("sign_up", { user: {}, isLogged: req.session.isLogged });
+};
 
-exports.signUp = (req, res) => {
-    try {
-        const {Email, Password, Full_Name, Address, Phone_Number} = req.body;
-        const Encryption = new Encryption_M(Password);
-        const user = new Users({
-            Email,
-            Password: Encryption.getEncryption(),
-            Full_Name,
-            Role: 'USER',
-            Address,
-            Phone_Number
-        });
-        user.save();
-        res.redirect('/');
-    } catch (error) {
-        console.log(error);
+const signUp = (req, res) => {
+  try {
+    const { email, password, FullName, address, phoneNumber } = signUpSchema.parse(req.body);
+
+    const emailExists = User.findOne({ email });
+
+    if (emailExists) {
+      return response.status(422).json({ message: "Email already exists" });
     }
-}
 
-exports.showSignIn = (req, res) => {
-    res.render('sign_in', { isLogged: req.session.isLogged });
-}
+    const hashedPassword = hash(password);
 
-exports.signIn = async (req,res) => {
-    try {
-        const { Email, Password } = req.body;
-        const Encryption = new Encryption_M( Password );
-        const user = await Users.findOne({ Email });
-        const userIsLogin = Encryption.IsCompatible(user.Password);
-        if(userIsLogin){
-            req.session.isLogged = true;
-            let token = jwt.sign({
-               ID: user.id,
-               Email: user.Email,
-               role: user.Role,
-           }, "to live in peace and comfort");
-           res.json({ 
-               message: "Auth successful",
-               token: token,
-           });
-        }
-        
-    } catch (error) {
-        console.log(error);
+    const user = new User({
+      email,
+      password: hashedPassword,
+      FullName,
+      address,
+      phoneNumber,
+    });
+
+    user.save();
+
+    res.redirect("/sign-in");
+    res.status(201).json({ message: "User created" });
+  } catch (error) {
+    console.error(error);
+
+    if (error instanceof z.ZodError) {
+      const { message } = error.errors[0];
+      return response.status(422).json({ message: `Validation Error: ${message}` });
     }
-}
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
-exports.logout =(req,res) => {
-    req.session.isLogged = false;
-    res.redirect('/');
-}
+const showSignIn = (req, res) => {
+  res.render("sign_in", { isLogged: req.session.isLogged });
+};
+
+const signIn = async (req, res) => {
+  try {
+    const { email, password } = signInSchema.parse(req.body);
+
+    const emailExists = await User.findOne({ email });
+
+    if (!emailExists) {
+        return response.status(401).json({ message: "Auth failed" });
+    }
+
+    const user = emailExists;
+    const userIsLogin = await compareHash(password, user.password);
+
+    if (userIsLogin) {
+      req.session.isLogged = true;
+      let token = jwt.sign(
+        {
+          ID: user.id,
+          Email: user.Email,
+          role: user.Role,
+        },
+        "to live in peace and comfort"
+      );
+      res.json({
+        message: "Auth successful",
+        token: token,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const logout = (req, res) => {
+  req.session.isLogged = false;
+  res.redirect("/");
+};
+
+module.exports = {
+  showSignUp,
+  signUp,
+  showSignIn,
+  signIn,
+  logout,
+};
