@@ -10,7 +10,9 @@ const cookieParser = require("cookie-parser");
 
 const PORT = process.env.PORT || 3000;
 
+// Create an express app
 const app = express();
+
 app.use(cookieParser());
 
 app.use(
@@ -21,14 +23,20 @@ app.use(
   })
 );
 
+// 
 app.use(express.static(path.join(__dirname, "../public")));
 app.use(express.json());
+
+// Log all requests
 app.use(morgan("dev"));
+
+// Enable CORS
 app.use(cors());
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
+// All routes
 app.use("/", routes);
 
 app.get("/", (req, res) => {
