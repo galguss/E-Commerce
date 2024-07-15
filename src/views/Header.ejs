@@ -2,11 +2,10 @@
     <div class="logo">
         <img src="/logo.png" alt="">
         <div class="buttons">
-            <% if (!isLogged) { %>
-                <a href="/user/signin/">Sign in</a><a href="/user/signup/">Sign up</a>
-            <% } else { %>
+            <% if (isLogged) { %>
                 <button class="a" onclick="logout()">logout</button>
-            <% } %>
+            <% } 
+             %>
         </div>
     </div>
 </header>

@@ -1,55 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="/css/main.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.min.css"
+    />
     <title>Dynamic production line</title>
-</head>
-<body>
+  </head>
+  <body>
     <%- include('Header') %>
     <main class="container">
-        <h2 class="title">Sign in</h2>
-        <form id="sing_in">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" require/>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" require/>
-            <button class="submit">Sign In</button>
-        </form>
+      <h2 class="title">Sign in</h2>
+      <form id="sing_in">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" require />
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" require />
+
+        <span>User does not exist?</span>
+        <a href="/user/signup">Sign Up</a>
+
+        <button class="submit">Sign In</button>
+      </form>
     </main>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script>
-        console.log('ajax');
-        $(document).ready(function() {
-            $('#sing_in').submit(function(event) {
-                event.preventDefault();
-                
-                $.ajax({
-                    url: '/user/signin/',
-                    method: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify({
-                        Email: $('#email').val(),
-                        Password: $('#password').val(),
-                    }),
-                    success:function(response) {
-                        //const user = await response
-                        localStorage.setItem('token', response.token);
-                        window.location.href = '/';
-                       /* $('#message').text(response.message);
+      console.log("ajax");
+      $(document).ready(function () {
+        $("#sing_in").submit(function (event) {
+          event.preventDefault();
+
+          $.ajax({
+            url: "/user/signin/",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+              Email: $("#email").val(),
+              Password: $("#password").val(),
+            }),
+            success: function (response) {
+              //const user = await response
+              localStorage.setItem("token", response.token);
+              window.location.href = "/";
+              /* $('#message').text(response.message);
                         $('#full_name').val('');
                         $('#email').val('');
                         $('#password').val('');
                         $('#address').val('');
                         $('#phone_number').val('');*/
-                    },
-                    error: function(error) {
-                        $('#message').text('Error Something went wrong please verify the data');
-                    }
-                });
-            });
+            },
+            error: function (error) {
+              $("#message").text(
+                "Error Something went wrong please verify the data"
+              );
+            },
+          });
         });
+      });
     </script>
-</body>
+  </body>
 </html>
