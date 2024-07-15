@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { showSignUp, signUp, showSignIn, signIn, logout } = require("../controllers/userController");
+const { showSignUp, signUp, showSignIn, signIn, logout } = require("../controllers/user");
 
 router.get("/signup", showSignUp);
 router.post("/singup", signUp);

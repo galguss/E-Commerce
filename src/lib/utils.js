@@ -9,4 +9,5 @@ const generateToken = async (payload) => jwt.sign(payload, process.env.JWT_SECRE
 module.exports = {
   compareHash,
   hash,
+  generateToken
 };

@@ -1,8 +1,7 @@
-const jwt = require("jsonwebtoken");
 const User = require("../modules/User");
 const { signInSchema, signUpSchema } = require("../lib/validators/auth");
 const { z } = require("zod");
-const { hash, compareHash } = require("../lib/utils");
+const { hash, compareHash, generateToken } = require("../lib/utils");
 
 const showSignUp = (req, res) => {
   res.render("sign_up", { user: {}, isLogged: req.session.isLogged });
@@ -54,34 +53,35 @@ const signIn = async (req, res) => {
     const emailExists = await User.findOne({ email });
 
     if (!emailExists) {
-        return response.status(401).json({ message: "Auth failed" });
+      return response.status(401).json({ message: "Auth failed" });
     }
 
     const user = emailExists;
     const userIsLogin = await compareHash(password, user.password);
 
     if (userIsLogin) {
+      const token = generateToken(user._id, user.email);
       req.session.isLogged = true;
-      let token = jwt.sign(
-        {
-          ID: user.id,
-          Email: user.Email,
-          role: user.Role,
-        },
-        "to live in peace and comfort"
-      );
-      res.json({
-        message: "Auth successful",
-        token: token,
-      });
+      res.cookie("token", token, { httpOnly: true });
+      res.redirect("/");
+      return res.status(200).json({ message: "Auth success" });
     }
+
+    return  res.status(401).json({ message: "Auth failed" });
   } catch (error) {
-    console.log(error);
+    console.error(error);
+
+    if (error instanceof z.ZodError) {
+      const { message } = error.errors[0];
+      return response.status(422).json({ message: `Validation Error: ${message}` });
+    }
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
 const logout = (req, res) => {
   req.session.isLogged = false;
+  res.clearCookie("token");
   res.redirect("/");
 };
 
