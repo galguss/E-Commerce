@@ -11,7 +11,7 @@
     <title>Dynamic production line</title>
   </head>
   <body>
-    <%- include('Header') %>
+    <%- include('header') %>
     <main class="container">
       <h2 class="title">Sign in</h2>
       <form id="sing_in">
@@ -38,12 +38,11 @@
             method: "POST",
             contentType: "application/json",
             data: JSON.stringify({
-              Email: $("#email").val(),
-              Password: $("#password").val(),
+              email: $("#email").val(),
+              password: $("#password").val(),
             }),
             success: function (response) {
               //const user = await response
-              localStorage.setItem("token", response.token);
               window.location.href = "/";
               /* $('#message').text(response.message);
                         $('#full_name').val('');

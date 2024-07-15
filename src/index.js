@@ -1,4 +1,5 @@
 const express = require("express");
+const session = require("express-session");
 const morgan = require("morgan");
 const cors = require("cors");
 const path = require("path");
@@ -12,6 +13,14 @@ dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 
+app.use(
+  session({
+    secret: process.env.KEY_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
 app.use(express.static(path.join(__dirname, "../public")));
 app.use(express.json());
 app.use(morgan("dev"));
@@ -20,6 +29,7 @@ app.use(cors());
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+
 
 app.use("/", routes);
 

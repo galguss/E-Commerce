@@ -7,14 +7,14 @@ const showSignUp = (req, res) => {
   res.render("sign_up", { user: {}, isLogged: req.session.isLogged });
 };
 
-const signUp = (req, res) => {
+const signUp = async (req, res) => {
   try {
-    const { email, password, FullName, address, phoneNumber } = signUpSchema.parse(req.body);
+    const { email, password, fullName, address, phoneNumber } = signUpSchema.parse(req.body);
 
-    const emailExists = User.findOne({ email });
+    const emailExists = await User.findOne({ email });
 
     if (emailExists) {
-      return response.status(422).json({ message: "Email already exists" });
+      return res.status(422).json({ message: "Email already exists" });
     }
 
     const hashedPassword = hash(password);
@@ -22,7 +22,7 @@ const signUp = (req, res) => {
     const user = new User({
       email,
       password: hashedPassword,
-      FullName,
+      fullName,
       address,
       phoneNumber,
     });
@@ -36,7 +36,7 @@ const signUp = (req, res) => {
 
     if (error instanceof z.ZodError) {
       const { message } = error.errors[0];
-      return response.status(422).json({ message: `Validation Error: ${message}` });
+      return res.status(422).json({ message: `Validation Error: ${message}` });
     }
     res.status(500).json({ message: "Internal Server Error" });
   }
@@ -53,7 +53,7 @@ const signIn = async (req, res) => {
     const emailExists = await User.findOne({ email });
 
     if (!emailExists) {
-      return response.status(401).json({ message: "Auth failed" });
+      return res.status(401).json({ message: "Auth failed" });
     }
 
     const user = emailExists;
@@ -67,13 +67,13 @@ const signIn = async (req, res) => {
       return res.status(200).json({ message: "Auth success" });
     }
 
-    return  res.status(401).json({ message: "Auth failed" });
+    return res.status(401).json({ message: "Auth failed" });
   } catch (error) {
     console.error(error);
 
     if (error instanceof z.ZodError) {
       const { message } = error.errors[0];
-      return response.status(422).json({ message: `Validation Error: ${message}` });
+      return res.status(422).json({ message: `Validation Error: ${message}` });
     }
     res.status(500).json({ message: "Internal Server Error" });
   }
