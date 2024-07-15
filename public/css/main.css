@@ -28,11 +28,13 @@
   justify-content: center;
 }
 
-.sign_up__from {
+.sign_up__from,
+.sign_in__from {
   display: flex;
   flex-wrap: wrap;
 }
 
-#message{
-    color:red
+#message {
+  color: red;
+font-weight: 500;
 }

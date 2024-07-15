@@ -53,7 +53,7 @@ const signIn = async (req, res) => {
     const emailExists = await User.findOne({ email });
 
     if (!emailExists) {
-      return res.status(401).json({ message: "Auth failed" });
+      return res.status(401).json({ message: "Incorrect email or password" });
     }
 
     const user = emailExists;
@@ -67,7 +67,7 @@ const signIn = async (req, res) => {
       return res.status(200).json({ message: "Auth success" });
     }
 
-    return res.status(401).json({ message: "Auth failed" });
+    return res.status(401).json({ message: "Incorrect email or password" });
   } catch (error) {
     console.error(error);
 
