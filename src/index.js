@@ -1,4 +1,4 @@
-require('dotenv').config()
+require("dotenv").config();
 const express = require("express");
 const session = require("express-session");
 const morgan = require("morgan");
@@ -26,10 +26,8 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(cors());
 
-
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-
 
 app.use("/", routes);
 
@@ -38,7 +36,6 @@ app.get("/", (req, res) => {
 });
 
 app.listen(PORT, () => {
-    connectDB();
-    console.log(`The server is running on port: ${PORT}....`);
-  });
-  
+  connectDB();
+  console.log(`The server is running on port: ${PORT}....`);
+});
