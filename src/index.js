@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const session = require('express-session');
 const morgan = require('morgan');
+const cors = require('cors');
 const path = require('path');
 
 const app = express();
@@ -10,9 +12,16 @@ dotenv.config();
 
 const port = 3000;
 
+app.use(session({
+    secret: process.env.secretKey,
+    resave: false,
+    saveUninitialized: true
+}));
+
 app.use(express.static(path.join(__dirname ,'../public')));
 app.use(express.json());
 app.use(morgan('dev'));
+app.use(cors());
 
 app.set('views', path.join(__dirname, 'views'));
 app.set("view engine", "ejs");
@@ -33,7 +42,7 @@ database.once('connected', () => {
 });
 
 app.get('/', (req, res) => {
-    res.render('Index');
+    res.render('Index', { isLogged: req.session.isLogged });
 });
 
 const users = require('./routes/user_R');

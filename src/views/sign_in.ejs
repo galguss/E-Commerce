@@ -20,6 +20,7 @@
     </main>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script>
+        console.log('ajax');
         $(document).ready(function() {
             $('#sing_in').submit(function(event) {
                 event.preventDefault();
@@ -32,7 +33,7 @@
                         Email: $('#email').val(),
                         Password: $('#password').val(),
                     }),
-                    success: async function(response) {
+                    success:function(response) {
                         //const user = await response
                         localStorage.setItem('token', response.token);
                         window.location.href = '/';

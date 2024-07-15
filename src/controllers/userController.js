@@ -3,7 +3,7 @@ const Users = require('../modules/user_M');
 const Encryption_M = require('../modules/Encryption_M');
 
 exports.showSignUp = (req, res) => {
-    res.render('sign_up', {user : {}});
+    res.render('sign_up', {user : {}, isLogged: req.session.isLogged });
 }
 
 exports.signUp = (req, res) => {
@@ -26,7 +26,7 @@ exports.signUp = (req, res) => {
 }
 
 exports.showSignIn = (req, res) => {
-    res.render('sign_in');
+    res.render('sign_in', { isLogged: req.session.isLogged });
 }
 
 exports.signIn = async (req,res) => {
@@ -36,6 +36,7 @@ exports.signIn = async (req,res) => {
         const user = await Users.findOne({ Email });
         const userIsLogin = Encryption.IsCompatible(user.Password);
         if(userIsLogin){
+            req.session.isLogged = true;
             let token = jwt.sign({
                ID: user.id,
                Email: user.Email,
@@ -50,4 +51,9 @@ exports.signIn = async (req,res) => {
     } catch (error) {
         console.log(error);
     }
+}
+
+exports.logout =(req,res) => {
+    req.session.isLogged = false;
+    res.redirect('/');
 }

@@ -1,6 +1,21 @@
 <header>
     <div class="logo">
         <img src="/logo.png" alt="">
-        <div class="buttons"><a href="/user/signin/">Sign in</a><a href="/user/signup/">Sign up</a></div>
+        <div class="buttons">
+            <% if (!isLogged) { %>
+                <a href="/user/signin/">Sign in</a><a href="/user/signup/">Sign up</a>
+            <% } else { %>
+                <button class="a" onclick="logout()">logout</button>
+            <% } %>
+        </div>
     </div>
 </header>
+
+<script>
+    function logout() {
+        localStorage.removeItem('token');
+        window.location.href = '/user/logout';
+    }
+</script>
+
+
