@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require("express");
 const session = require("express-session");
 const morgan = require("morgan");
@@ -5,13 +6,12 @@ const cors = require("cors");
 const path = require("path");
 const { connectDB } = require("./lib/connect");
 const routes = require("./routes");
-
-const app = express();
-
-const dotenv = require("dotenv");
-dotenv.config();
+const cookieParser = require("cookie-parser");
 
 const PORT = process.env.PORT || 3000;
+
+const app = express();
+app.use(cookieParser());
 
 app.use(
   session({
