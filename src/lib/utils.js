@@ -6,7 +6,7 @@ const hash = async (value) => bcrypt.hash(value, 10);
 const compareHash = async (value, hash) => bcrypt.compare(value, hash);
 
 const generateToken = async (payload) =>
-  jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
+ await jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
 
 const verifyToken = async (token) => jwt.verify(token, process.env.JWT_SECRET);
 

@@ -12,15 +12,15 @@ const signUp = async (req, res) => {
     const { email, password, fullName, address, phoneNumber } = signUpSchema.parse(
       req.body
     );
-
+    
     const emailExists = await User.findOne({ email });
-
+    
     if (emailExists) {
       return res.status(422).json({ message: "Email already exists" });
     }
-
+    
     const hashedPassword = await hash(password);
-
+    
     const user = new User({
       email,
       password: hashedPassword,
@@ -28,10 +28,8 @@ const signUp = async (req, res) => {
       address,
       phoneNumber,
     });
-
+    
     user.save();
-
-    res.redirect("/sign-in");
     res.status(201).json({ message: "User created" });
   } catch (error) {
     console.error(error);
@@ -62,12 +60,12 @@ const signIn = async (req, res) => {
     const userIsLogin = await compareHash(password, user.password);
 
     if (userIsLogin) {
-      const token = generateToken(user._id, user.email);
+      const token = await generateToken({id:user._id, email:user.email});
       req.session.isLogged = true;
       
       res.cookie("token", token, { httpOnly: true });
 
-      res.redirect("/");
+     // res.redirect("/");
 
       return res.status(200).json({ message: "Auth success" });
     }
