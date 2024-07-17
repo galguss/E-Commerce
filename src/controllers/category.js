@@ -1,10 +1,10 @@
 const Category = require("../modules/Category");
-const { createCategorySchema, UpdateCategorySchema } = require("../lib/validators/auth");
+const { createCategorySchema, updateCategorySchema, deleteCategorySchema } = require("../lib/validators/category");
 const { z } = require("zod");
 
 const getAllCategories = async (req, res) => {
     const categories = await Category.find();
-    res.status(201).json(categories);
+    res.status(200).json(categories);
 }
 
 const searchCategory = async (req, res) => {
@@ -16,10 +16,10 @@ const searchCategory = async (req, res) => {
         const item = await Category.findOne({ category });
 
         if(!item){
-          return  res.status(422).json({ message: "This category does not exist in the system" });
+          return  res.status(404).json({ message: "This category does not exist in the system" });
         }
 
-        res.status(201).json(item);
+        res.status(200).json(item);
         
     } catch (error) {
         console.log(error);
@@ -42,7 +42,7 @@ const createCategory = async (req, res) => {
       const categoryExists = await Category.findOne({ category });
       
       if (categoryExists) {
-        return res.status(422).json({ message: "Category already exists" });
+        return res.status(409).json({ message: "Category already exists" });
       }
       
       const categoryDB = new Category({
@@ -64,7 +64,7 @@ const createCategory = async (req, res) => {
 
   const updateCategory = async (req, res) => {
     try {
-        const {id , category} = UpdateCategorySchema.parse(
+        const {id , category} = updateCategorySchema.parse(
             req.body
         );
 
@@ -72,8 +72,13 @@ const createCategory = async (req, res) => {
             category
         };
         
-        await Category.findByIdAndUpdate(id, categoryDB);
-        res.status(201).json({ message: "Category Updated" });
+        const data = await Category.findByIdAndUpdate(id, categoryDB);
+        
+        if(data === null){
+          return res.status(204).json({message: "Updated feild"})
+        }
+
+        res.status(200).json({ message: "Category Updated" });
 
     } catch (error) {
         console.error(error);
@@ -88,11 +93,25 @@ const createCategory = async (req, res) => {
 
 const deleteCategory = async (req, res) => {
     try {
-        const { id } = req.body;
-        await Category.findByIdAndDelete(id);
-        res.status(201).json({ message: "Category Deleted" });
+        const { id } = deleteCategorySchema.parse(
+          req.body
+        );
+
+        const data = await Category.findByIdAndDelete(id);
+
+        if(data === null){
+          return res.status(204).json({message: "Deleted feild"})
+        }
+
+        res.status(200).json({ message: "Category Deleted" });
     } catch (error) {
         console.error(error);
+
+        if (error instanceof z.ZodError) {
+          const { message } = error.errors[0];
+          return res.status(422).json({ message: `Validation Error: ${message}` });
+        }
+
         res.status(500).json({ message: "Internal Server Error" });
     }
 }

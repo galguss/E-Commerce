@@ -1,24 +1,37 @@
 const User = require("../modules/User");
-const { userUpdateSchema, searchUserSchema } = require("../lib/validators/auth");
+const { userUpdateSchema, searchUserSchema , upgradeSchema } = require("../lib/validators/user");
 const { z } = require("zod");
 
 const getAllAccounts = async (req, res) => {
     const accounts = await User.find();
-    res.status(201).json(accounts);
+    res.status(200).json(accounts);
 }
 
 const upgradeAccount = async (req, res) => {
     try {
-        const { id } = req.body;
+        const { id } = upgradeSchema.parse(
+            req.body
+        );
         const account = await User.findById(id);
+
+        if(!account){
+            return res.status(204).json({message: "Account not found system"})
+        }
+
         const user = {
             role:(account.role === "USER")? "ADMIN":"USER"
         }
         await User.findByIdAndUpdate(id, user);
-        res.status(201).json({ message: "User Upgraded" });
+        res.status(200).json({ message: "User Upgraded" });
 
     } catch (error) {
         console.log(error);
+
+        if (error instanceof z.ZodError) {
+            const { message } = error.errors[0];
+            return res.status(422).json({ message: `Validation Error: ${message}` });
+        }
+
         res.status(500).json({ message: "Internal Server Error" }); 
     }
 }
@@ -32,10 +45,10 @@ const searchAccount = async (req, res) => {
         const account = await User.findOne({ email });
 
         if(!account){
-          return  res.status(422).json({ message: "This user does not exist in the system" });
+          return  res.status(404).json({ message: "This user does not exist in the system" });
         }
 
-        res.status(201).json(account);
+        res.status(200).json(account);
         
     } catch (error) {
         console.log(error);
@@ -62,8 +75,13 @@ const updateAccount = async (req, res) => {
             phoneNumber,
         };
         
-        await User.findByIdAndUpdate(id, user);
-        res.status(201).json({ message: "User Updated" });
+        const data = await User.findByIdAndUpdate(id, user);
+
+        if(data === null){
+            return res.status(204).json({message: "Updated feild"})
+        }
+
+        res.status(200).json({ message: "User Updated" });
 
     } catch (error) {
         console.error(error);
@@ -78,11 +96,25 @@ const updateAccount = async (req, res) => {
 
 const deleteAccount = async (req, res) => {
     try {
-        const { id } = req.body;
-        await User.findByIdAndDelete(id);
-        res.status(201).json({ message: "User Deleted" });
+        const { id } = upgradeSchema.parse(
+            req.body
+        );
+
+        const data = await User.findByIdAndDelete(id);
+
+        if(data === null){
+            return res.status(204).json({message: "Deleted feild"})
+        }
+
+        res.status(200).json({ message: "User Deleted" });
     } catch (error) {
         console.error(error);
+
+        if (error instanceof z.ZodError) {
+            const { message } = error.errors[0];
+            return res.status(422).json({ message: `Validation Error: ${message}` });
+        }
+
         res.status(500).json({ message: "Internal Server Error" });
     }
 }

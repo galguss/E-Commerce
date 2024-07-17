@@ -1,10 +1,10 @@
 const Product = require("../modules/Product");
-const { productSchema, productUpdateSchema, searchProductSchema } = require("../lib/validators/auth");
+const { productSchema, productUpdateSchema, searchProductSchema, deleteProductSchema } = require("../lib/validators/produc");
 const { z } = require("zod");
 
 const getAllProducts = async (req, res) => {
     const products = await Product.find();
-    res.status(201).json(products);
+    res.status(200).json(products);
 }
 
 const searchProduct = async (req, res) => {
@@ -16,10 +16,10 @@ const searchProduct = async (req, res) => {
         const product = await Product.findOne({ productName });
 
         if(!product){
-          return  res.status(422).json({ message: "This product does not exist in the system" });
+          return  res.status(404).json({ message: "This product does not exist in the system" });
         }
 
-        res.status(201).json(product);
+        res.status(200).json(product);
         
     } catch (error) {
         console.log(error);
@@ -43,7 +43,7 @@ const createProduct = async (req, res) => {
       const productExists = await Product.findOne({ productName });
       
       if (productExists) {
-        return res.status(422).json({ message: "Product already exists" });
+        return res.status(409).json({ message: "Product already exists" });
       }
       
       const product = new Product({
@@ -80,8 +80,13 @@ const createProduct = async (req, res) => {
             category
         };
         
-        await Product.findByIdAndUpdate(id, product);
-        res.status(201).json({ message: "Product Updated" });
+        const data = await Product.findByIdAndUpdate(id, product);
+
+        if(data === null){
+          return res.status(204).json({message: "Updated feild"})
+        }
+
+        res.status(200).json({ message: "Product Updated" });
 
     } catch (error) {
         console.error(error);
@@ -96,11 +101,25 @@ const createProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
     try {
-        const { id } = req.body;
-        await Product.findByIdAndDelete(id);
-        res.status(201).json({ message: "Product Deleted" });
+        const { id } = deleteProductSchema.parse(
+          req.body
+        );
+        
+        const data = await Product.findByIdAndDelete(id);
+
+        if(data === null){
+          return res.status(204).json({message: "Deleted feild"})
+        }
+
+        res.status(200).json({ message: "Product Deleted" });
     } catch (error) {
         console.error(error);
+
+        if (error instanceof z.ZodError) {
+          const { message } = error.errors[0];
+          return res.status(422).json({ message: `Validation Error: ${message}` });
+        }
+
         res.status(500).json({ message: "Internal Server Error" });
     }
 }
