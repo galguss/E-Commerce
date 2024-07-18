@@ -4,10 +4,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="css/main.css" rel="stylesheet" />
+    <link href="css/shop.css" rel="stylesheet" />
     <title>Dynamic production line</title>
   </head>
   <body>
-    <%- include('header', { isLogged: isLogged }) %>
-    <main class="container"></main>
+    <%- include('header') %>
+    <main class="container">
+      <h1>Welcome to shopping</h1>
+      <section class="shop">
+        <% products.map((product) => {%>
+          <div class="product">
+            <div class="image">
+              <img src="<%= product.pathImage %>" alt="product">
+            </div>
+            <span class="data"> <span><%= product.price %>&#8362;</span><span><%= product.description %></span></span>
+            <span class="actions">
+              <button class="add">Add</button>
+              <% if(user && user.role === 'ADMIN'){ %>
+                  <button class="delete">Delete</button class="delete">
+                  <a href="/admin/dashboard/update-product/<%= product._id %>">Edit</a>
+              <% } %> 
+            </span>
+          </div>
+        <% }) %>
+      </section>
+    </main>
   </body>
 </html>

@@ -4,7 +4,7 @@ const { z } = require("zod");
 const { hash, compareHash, generateToken } = require("../lib/utils");
 
 const showSignUp = (req, res) => {
-  res.render("sign_up", { user: {}, isLogged: req.session.isLogged });
+  res.render("sign_up");
 };
 
 const signUp = async (req, res) => {
@@ -30,7 +30,8 @@ const signUp = async (req, res) => {
     });
     
     user.save();
-    res.status(201).json({ message: "User created" });
+    res.redirect("/user/sign-in");
+    //res.status(201).json({ message: "User created" });
   } catch (error) {
     console.error(error);
 
@@ -43,7 +44,7 @@ const signUp = async (req, res) => {
 };
 
 const showSignIn = (req, res) => {
-  res.render("sign_in", { isLogged: req.session.isLogged });
+  res.render("sign_in");
 };
 
 const signIn = async (req, res) => {
@@ -61,11 +62,9 @@ const signIn = async (req, res) => {
 
     if (userIsLogin) {
       const token = await generateToken({id:user._id, email:user.email});
-      req.session.isLogged = true;
       
       res.cookie("token", token, { httpOnly: true });
-
-     // res.redirect("/");
+      res.cookie("user", user, { httpOnly: true });
 
       return res.status(200).json({ message: "Auth success" });
     }
@@ -83,7 +82,7 @@ const signIn = async (req, res) => {
 };
 
 const logout = (req, res) => {
-  req.session.isLogged = false;
+  res.clearCookie("user");
   res.clearCookie("token");
   res.redirect("/");
 };

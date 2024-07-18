@@ -4,27 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="/css/main.css" rel="stylesheet" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.min.css"
-    />
+    <link href="/css/form.css" rel="stylesheet" />
     <title>Dynamic production line</title>
   </head>
   <body>
-    <%- include('header') %>
+    <%- include('logo') %>
     <main class="container">
       <h2 class="title">Sign in</h2>
       <form id="sing_in">
-        <div class="sign_in__from">
           <label for="email">Email:</label>
           <input type="email" id="email" name="email" require />
           <label for="password">Password:</label>
           <input type="password" id="password" name="password" require />
           <span id="message_error"></span>
-        </div>
-        <span>User does not exist?</span>
-        <a href="/user/sign-up">Sign Up</a>
-
+        <span>User does not exist? <a href="/user/sign-up">Sign Up</a></span>    
         <button class="submit">Sign In</button>
       </form>
     </main>

@@ -11,8 +11,8 @@ const {
 
 router.get("/all-product", getAllProducts);
 router.post("/search-product", searchProduct);
-router.post("/create-product",upload.single('image') ,createProduct);
-router.patch("/update-product", updateproduct);
+router.post("/create-product", upload.single('image'), createProduct);
+router.patch("/update-product", upload.single('image'), updateproduct);
 router.delete("/delete-product", deleteProduct);
 
 

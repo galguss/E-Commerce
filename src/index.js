@@ -8,6 +8,8 @@ const { connectDB } = require("./lib/connect");
 const routes = require("./routes");
 const cookieParser = require("cookie-parser");
 
+const Product = require("./modules/Product");
+
 const PORT = process.env.PORT || 3000;
 
 // Create an express app
@@ -39,8 +41,9 @@ app.set("view engine", "ejs");
 // All routes
 app.use("/", routes);
 
-app.get("/", (req, res) => {
-  res.render("Index", { isLogged: req.session.isLogged });
+app.get("/", async (req, res) => {
+  const products = await Product.find();
+  res.render("index", {user: req.cookies.user, token: req.cookies.token, products});
 });
 
 app.listen(PORT, () => {

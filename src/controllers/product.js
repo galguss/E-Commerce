@@ -1,6 +1,8 @@
 const Product = require("../modules/Product");
 const { productSchema, productUpdateSchema, searchProductSchema, deleteProductSchema } = require("../lib/validators/produc");
 const { z } = require("zod");
+const path = require('path');
+const fs = require('fs');
 
 const getAllProducts = async (req, res) => {
     const products = await Product.find();
@@ -39,7 +41,7 @@ const createProduct = async (req, res) => {
         req.body
       );
       const { filename } = req.file;
-      const pathImage = `./public/uploads/${filename}`;
+      const pathImage = `./uploads/${filename}`;
       const productExists = await Product.findOne({ productName });
       
       if (productExists) {
@@ -55,7 +57,8 @@ const createProduct = async (req, res) => {
       });
       
       product.save();
-      res.status(201).json({ message: "Product created" });
+      //res.status(201).json({ message: "Product created" });
+      res.status(201).redirect("/admin/dashboard");
     } catch (error) {
       console.error(error);
   
@@ -72,12 +75,31 @@ const createProduct = async (req, res) => {
         const {id , productName, description, price, category} = productUpdateSchema.parse(
             req.body
         );
+        
+        const imageDB =  await Product.findById(id);
+        let pathImage;
+
+        if(typeof req.file !== 'undefined'){
+            const { filename } = req.file;
+            pathImage = `./uploads/${filename}`;
+            const pathFile = path.join(__dirname, imageDB.pathImage);
+            console.log(pathFile);
+            /*fs.unlink(pathFile, (err) => {
+                if (err) {
+                  console.error('Error deleting file:', err);
+                  throw new Error();
+                }
+              });*/
+        }else{
+          pathImage = imageDB
+        }
 
         const product ={
             productName,
             description,
             price,
-            category
+            category,
+            pathImage
         };
         
         const data = await Product.findByIdAndUpdate(id, product);
@@ -86,7 +108,8 @@ const createProduct = async (req, res) => {
           return res.status(204).json({message: "Updated feild"})
         }
 
-        res.status(200).json({ message: "Product Updated" });
+        //res.redirect('/');
+        res.status(200).json({ message: 'Product updated successfully' });
 
     } catch (error) {
         console.error(error);

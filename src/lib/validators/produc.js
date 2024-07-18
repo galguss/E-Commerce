@@ -3,7 +3,7 @@ const { z } = require("zod");
 const productSchema = z.object({
     productName: z.string(),
     description: z.string(),
-    price: z.number(),
+    price: z.string(),
     category: z.string(),
   });
   
@@ -11,7 +11,7 @@ const productSchema = z.object({
     id: z.string(),
     productName: z.string(),
     description: z.string(),
-    price: z.number(),
+    price: z.string(),
     category: z.string(),
   });
   

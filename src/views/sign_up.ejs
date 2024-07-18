@@ -4,24 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="/css/main.css" rel="stylesheet" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.min.css"
-    /> 
+    <link href="/css/form.css" rel="stylesheet" />
     <title>Dynamic production line</title>
   </head>
   <body>
-    <%- include('header') %>
+    <%- include('logo') %>
     <main class="container">
       <h2 class="title">Sign Up</h2>
       <form id="sing_up">
-        <div class="sign_up__from">
           <label for="full_name">Full Name:</label>
           <input
             type="text"
             id="full_name"
             name="full_name"
-            value="<%= user.fullName %>"
             require
           />
           <label for="email">Email:</label>
@@ -29,7 +24,6 @@
             type="email"
             id="email"
             name="email"
-            value="<%= user.email %>"
             require
           />
           <label for="password">Password:</label>
@@ -37,7 +31,6 @@
             type="password"
             id="password"
             name="password"
-            value="<%= user.password %>"
             require
           />
           <label for="address">Address:</label>
@@ -45,7 +38,6 @@
             type="text"
             id="address"
             name="address"
-            value="<%= user.address %>"
             require
           />
           <label for="phone_number">Phone Number:</label>
@@ -53,13 +45,10 @@
             type="text"
             id="phone_number"
             name="phone_number"
-            value="<%= user.phoneNumber %>"
             require
           />
           <span id="message_error"></span>
-        </div>
-        <span>User exist?</span>
-        <a href="/user/sign-in">Sign In</a>
+        <span>User exist? <a href="/user/sign-in">Sign In</a></span>
 
         <button class="submit">Submit</button>
       </form>
@@ -81,7 +70,7 @@
               phoneNumber: $("#phone_number").val(),
             }),
             success: function (response) {
-              window.location.href = "/";
+              window.location.href = "/user/sign-in";
             },
             error: function (error) {
               $("#message_error").text(error?.responseJSON?.message);
