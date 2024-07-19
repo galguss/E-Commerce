@@ -4,12 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/main.css" rel="stylesheet" />
+    <link href="/css/dashboard.css" rel="stylesheet" />
+    <link href="/css/popup.css" rel="stylesheet" />
     <title>Dynamic production line</title>
 </head>
 <body>
     <%- include('header') %>
+    <%- include('popup') %>
     <main class="container">
-        <h2><a href="/admin/dashboard/add-product">Add New Product</a></h2>
+        <h2><a class="addProduct" href="/admin/dashboard/add-product">Add New Product</a></h2>
+
+        <h2 class="title">accounts:</h2>
+        <table>
+            <tr>
+                <th>full Name</th>
+                <th>email</th>
+                <th>address</th>
+                <th>phone Number</th>
+                <th colspan="3">action</th>
+            </tr>
+            <% accounts.map(account => { %>
+                <tr>
+                    <td><%= account.fullName %></td>
+                    <td><%= account.email %></td>
+                    <td><%= account.email %></td>
+                    <td><%= account.phoneNumber %></td>
+                    <td><button>upgrade</button></td>
+                    <td><button>Edit</button></td>
+                    <td><button>delete</button></td>
+                </tr>
+            <% }); %>
+        </table>
+
+        <h2 class="title">categories:</h2>
+        <table>
+            <tr>
+                <th colspan="3" class="add"><button>add+</button></th>
+            </tr>
+            <tr>
+                <th>category</th>
+                <th colspan="2">action</th>
+            </tr>
+            <% categories.map(category => { %>
+                <tr>
+                    <td><%= category.category %></td>
+                    <td><button>Edit</button></td>
+                    <td><button>delete</button></td>
+                </tr>
+            <% }); %>
+        </table>
     </main>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
 </body>
 </html>

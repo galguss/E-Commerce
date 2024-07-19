@@ -1,9 +1,12 @@
 const Category = require("../modules/Category");
 const Product = require("../modules/Product");
+const User = require("../modules/User");
 
 
-const showDashboard = (req, res) => {
-    res.render('dashboard',{user: req.cookies.user, token: req.cookies.token});
+const showDashboard = async (req, res) => {
+    const accounts = await User.find();
+    const categories = await Category.find();
+    res.render('dashboard',{user: req.cookies.user, token: req.cookies.token, accounts, categories});
 }
 
 const addProduct = async (req, res) => {
