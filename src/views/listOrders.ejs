@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/main.css" rel="stylesheet" />
+    <link href="/css/list.css" rel="stylesheet" />
+    <title>Dynamic production line</title>
+</head>
+<body>
+    <%- include('header') %>
+    <main class="container">
+        <h2>Order history:</h2>
+        <ul>
+            <% orders.map(order => { %>
+                <% console.log(order) %>
+                <li>
+                    <span class="productList">products: 
+                        <br/>
+                        <% order.productList.map(item => {%>
+                        <div class="item">
+                            <span>product: <%= item.productName %></span>
+                            <span>description: <%= item.description %></span>
+                            <span>price: <%= item.price %>&#8362;</span>
+                        </div>
+                        <% }) %>
+                    </span>
+                    <span>date: <%= order._doc.date %></span>
+                    <span>total: <%= order._doc.total %>&#8362;</span>
+                </li>
+            <% }) %>
+
+        </ul>
+    </main>
+</body>
+</html>

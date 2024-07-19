@@ -1,6 +1,8 @@
 const Orders = require("../modules/Orders");
+const Product = require("../modules/Product");
 const { ordersSchema, searchOrdersSchema } = require("../lib/validators/orders");
 const { z } = require("zod");
+
 
 const searchOrders = async (req, res) => {
     try {
@@ -9,12 +11,25 @@ const searchOrders = async (req, res) => {
         );
 
         const orders = await Orders.find({ userId });
+        const products = await Product.find();
 
         if(!orders){
           return  res.status(200).json({ message: "No previous purchases have been made" });
         }
+        
+        // join
+        const enhancedOrders = orders.map(order => {
+          const enhancedProductList = order.productList.map(itemId => {
+            return products.filter(product => product._id.toString() === itemId.toString())[0];
+          }).filter(product => product !== undefined); 
+          return {
+            ...order,
+            productList: enhancedProductList
+          };
+        });
 
-        res.status(200).json(orders);
+        
+      res.status(200).render('listOrders', {user: req.cookies.user, token: req.cookies.token ,orders: enhancedOrders});
         
     } catch (error) {
         console.log(error);
@@ -36,7 +51,7 @@ const createOrder = async (req, res) => {
       
       let dateObj = new Date();
       let yyyy = dateObj.getFullYear();
-      let mm = dateObj.getMonth() + 1;
+      let mm = dateObj.getMonth();
 
       const product = new Orders({
         userId,
