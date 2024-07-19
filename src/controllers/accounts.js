@@ -7,6 +7,29 @@ const getAllAccounts = async (req, res) => {
     res.status(200).json(accounts);
 }
 
+const showUpdateForm = async (req, res)=>{
+    try {
+        const { id } = upgradeSchema.parse(
+            req.params
+        );
+
+        const account = await User.findById(id);
+
+        if(!account){
+            return res.status(204).json({message: "Account not found system"})
+        }
+
+        res.status(200).render('accountForm', {account})
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            const { message } = error.errors[0];
+            return res.status(422).json({ message: `Validation Error: ${message}` });
+        }
+
+        res.status(500).json({ message: "Internal Server Error" }); 
+    }
+}
+
 const upgradeAccount = async (req, res) => {
     try {
         const { id } = upgradeSchema.parse(
@@ -124,5 +147,6 @@ module.exports = {
     upgradeAccount,
     deleteAccount,
     getAllAccounts,
-    searchAccount
+    searchAccount,
+    showUpdateForm
 };

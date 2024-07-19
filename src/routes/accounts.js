@@ -5,13 +5,18 @@ const {
     updateAccount,
     upgradeAccount,
     deleteAccount,
-    searchAccount
+    searchAccount,
+    showUpdateForm
   } = require("../controllers/accounts");
 
 router.get('/all-users', getAllAccounts);
-router.post('/search-user', searchAccount);  
+router.get('/user-update/:id', showUpdateForm);
+
+router.post('/search-user', searchAccount);
+
 router.patch('/user-update', updateAccount);
 router.patch('/user-upgrade', upgradeAccount);
+
 router.delete('/user-delete', deleteAccount);
 
 module.exports = router;

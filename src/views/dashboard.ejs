@@ -19,6 +19,7 @@
             <tr>
                 <th>full Name</th>
                 <th>email</th>
+                <th>role</th>
                 <th>address</th>
                 <th>phone Number</th>
                 <th colspan="3">action</th>
@@ -27,11 +28,12 @@
                 <tr>
                     <td><%= account.fullName %></td>
                     <td><%= account.email %></td>
-                    <td><%= account.email %></td>
+                    <td><%= account.role %></td>
+                    <td><%= account.address %></td>
                     <td><%= account.phoneNumber %></td>
-                    <td><button>upgrade</button></td>
-                    <td><button>Edit</button></td>
-                    <td><button>delete</button></td>
+                    <td><button value="<%= account._id %>" onclick="handleData(this.value, 'PATCH', '/admin/user-upgrade',false)">upgrade</button></td>
+                    <td><button value="<%= account._id %>" onclick="handleData(this.value, 'PATCH', '/admin/user-update',true)">Edit</button></td>
+                    <td><button value="<%= account._id %>" onclick="showPopup(this.value)">delete</button></td>
                 </tr>
             <% }); %>
         </table>
@@ -55,6 +57,40 @@
         </table>
     </main>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        let itemId = null;
 
+        function handleData(id, method, path, bool){
+            if(bool){
+                window.location.href = `${path}/${id}`;
+            }else{
+                $.ajax({
+                        url: path,
+                        method: method,
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                        id : (itemId === null)? id : itemId
+                    }),
+                        success: function(response) {
+                            location.reload();
+                        },
+                        error: function() {
+                        $("#message_error").text(error?.responseJSON?.message);
+                        }
+                    });
+                }
+        }
+
+        function showPopup(productId){
+            itemId = productId;
+            document.getElementById('popup').style.display = 'flex';
+        }
+
+        document.getElementById('send').addEventListener('click', () => handleData('', 'DELETE', '/admin/user-delete', false));
+        document.getElementById('close').addEventListener('click', function() {
+            itemId= null;
+            document.getElementById('popup').style.display = 'none';
+        });
+    </script>
 </body>
 </html>

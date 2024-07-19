@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/css/main.css" rel="stylesheet" />
+    <link href="/css/form.css" rel="stylesheet" />
+    <title>Dynamic production line</title>
+  </head>
+  <body>
+    <%- include('logo') %>
+    <main class="container">
+      <h2 class="title">Account Update</h2>
+        <form id="sing_up">
+        <input type="hidden" id="id" name="id" value="<%= account._id %>">
+          <label for="full_name">Full Name:</label>
+          <input
+            type="text"
+            id="full_name"
+            name="full_name"
+            value="<%= account.fullName %>"
+            require
+          />
+          <label for="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value="<%= account.email %>"
+            require
+          />
+          <label for="address">Address:</label>
+          <input
+            type="text"
+            id="address"
+            name="address"
+            value="<%= account.address %>"
+            require
+          />
+          <label for="phone_number">Phone Number:</label>
+          <input
+            type="text"
+            id="phone_number"
+            name="phone_number"
+            value="<%= account.phoneNumber %>"
+            require
+          />
+          <span id="message_error"></span>
+        <span>User exist? <a href="/user/sign-in">Sign In</a></span>
+
+        <button class="submit">Submit</button>
+      </form>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#sing_up").submit(function (event) {
+          event.preventDefault();
+          $.ajax({
+            url: "/admin/user-update",
+            method: "PATCH",
+            contentType: "application/json",
+            data: JSON.stringify({
+              id: $("#id").val(),
+              fullName: $("#full_name").val(),
+              email: $("#email").val(),
+              address: $("#address").val(),
+              phoneNumber: $("#phone_number").val(),
+            }),
+            success: function (response) {
+              window.location.href = "/admin/dashboard";
+            },
+            error: function (error) {
+              $("#message_error").text(error?.responseJSON?.message);
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
