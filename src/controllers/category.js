@@ -1,10 +1,35 @@
 const Category = require("../modules/Category");
-const { createCategorySchema, updateCategorySchema, deleteCategorySchema } = require("../lib/validators/category");
+const { createCategorySchema, updateCategorySchema, idCategorySchema } = require("../lib/validators/category");
 const { z } = require("zod");
 
-const getAllCategories = async (req, res) => {
-    const categories = await Category.find();
-    res.status(200).json(categories);
+const addCategory = async (req, res) => {
+    res.status(200).render('categoryForm', {category:{}});
+}
+
+const editCategory = async (req, res) => {
+  try {
+    const { id } = idCategorySchema.parse(
+      req.params
+    );
+
+    const item = await Category.findById(id);
+
+     if(!item){
+        return  res.status(404).json({ message: "This category does not exist in the system" });
+      }
+
+      res.status(200).render('categoryForm',{category: item});
+
+  } catch (error) {
+
+    if (error instanceof z.ZodError) {
+      const { message } = error.errors[0];
+      return res.status(422).json({ message: `Validation Error: ${message}` });
+  }
+
+  res.status(500).json({ message: "Internal Server Error" });
+
+  }
 }
 
 const searchCategory = async (req, res) => {
@@ -93,7 +118,7 @@ const createCategory = async (req, res) => {
 
 const deleteCategory = async (req, res) => {
     try {
-        const { id } = deleteCategorySchema.parse(
+        const { id } = idCategorySchema.parse(
           req.body
         );
 
@@ -117,7 +142,8 @@ const deleteCategory = async (req, res) => {
 }
 
 module.exports = {
-    getAllCategories,
+    addCategory,
+    editCategory,
     searchCategory,
     createCategory,
     updateCategory,

@@ -9,12 +9,12 @@ const createCategorySchema = z.object({
     category: z.string()
   });
 
-  const deleteCategorySchema = z.object({
+  const idCategorySchema = z.object({
     id: z.string()
   });
 
   module.exports = {
     createCategorySchema,
     updateCategorySchema,
-    deleteCategorySchema
+    idCategorySchema
   };

@@ -35,7 +35,7 @@
               password: $("#password").val(),
             }),
             success: function (response) {
-              window.location.href = "/";
+              window.location.href = "/home";
             },
             error: function (error) {
               $("#message_error").text(error?.responseJSON?.message);

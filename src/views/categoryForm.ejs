@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/css/main.css" rel="stylesheet" />
+    <link href="/css/form.css" rel="stylesheet" />
+    <title>Dynamic production line</title>
+  </head>
+  <body>
+    <%- include('logo') %>
+    <main class="container">
+      <h2 class="title">Category</h2>
+      <form id="category-form">
+        <input type="hidden" id="id" name="id" value="<%= category._id %>">
+          <label for="category">Category:</label>
+          <input type="text" value="<%= category.category %>" id="category" name="category" require />
+          <span id="message_error"></span>    
+        <button class="submit">submit</button>
+      </form>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#category-form").submit(function (event) {
+          event.preventDefault();
+          let data;
+          let url;
+          let method;
+          if($("#id").val() === ''){
+            url = "/admin/create-category";
+            method = 'POST';
+            data = JSON.stringify({
+              category: $("#category").val(),
+            })
+          } else{
+            url = "/admin/update-category";
+            method = 'PATCH';
+            data = JSON.stringify({
+              id: $("#id").val(),
+              category: $("#category").val(),
+            })
+          }
+
+          $.ajax({
+            url,
+            method,
+            contentType: "application/json",
+            data,
+            success: function (response) {
+              window.location.href = "/admin/dashboard";
+            },
+            error: function (error) {
+              $("#message_error").text(error?.responseJSON?.message);
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

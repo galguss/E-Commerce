@@ -7,7 +7,8 @@ const { connectDB } = require("./lib/connect");
 const routes = require("./routes");
 const cookieParser = require("cookie-parser");
 
-const { showShop, showCart } = require("./controllers/global");;
+
+const { showSignIn } = require('./controllers/user');
 
 const PORT = process.env.PORT || 3000;
 
@@ -32,8 +33,8 @@ app.set("view engine", "ejs");
 // All routes
 app.use("/", routes);
 
-app.get("/", showShop);
-app.get("/cart", showCart);
+app.get("/", showSignIn);
+
 
 app.listen(PORT, () => {
   connectDB();

@@ -33,7 +33,7 @@
                     <td><%= account.phoneNumber %></td>
                     <td><button value="<%= account._id %>" onclick="handleData(this.value, 'PATCH', '/admin/user-upgrade',false)">upgrade</button></td>
                     <td><button value="<%= account._id %>" onclick="handleData(this.value, 'PATCH', '/admin/user-update',true)">Edit</button></td>
-                    <td><button value="<%= account._id %>" onclick="showPopup(this.value)">delete</button></td>
+                    <td><button value="<%= account._id %>" onclick="showPopup(this.value, 'account')">delete</button></td>
                 </tr>
             <% }); %>
         </table>
@@ -41,7 +41,7 @@
         <h2 class="title">categories:</h2>
         <table>
             <tr>
-                <th colspan="3" class="add"><button>add+</button></th>
+                <th colspan="3" class="add"><button onclick="handleData('','','/admin/add-category',true)">add+</button></th>
             </tr>
             <tr>
                 <th>category</th>
@@ -50,8 +50,8 @@
             <% categories.map(category => { %>
                 <tr>
                     <td><%= category.category %></td>
-                    <td><button>Edit</button></td>
-                    <td><button>delete</button></td>
+                    <td><button value="<%= category._id %>" onclick="handleData(this.value, 'PATCH', '/admin/edit-category',true)">Edit</button></td>
+                    <td><button value="<%= category._id %>" onclick="showPopup(this.value, 'category')">delete</button></td>
                 </tr>
             <% }); %>
         </table>
@@ -59,6 +59,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script>
         let itemId = null;
+        let deletePath;
 
         function handleData(id, method, path, bool){
             if(bool){
@@ -81,12 +82,13 @@
                 }
         }
 
-        function showPopup(productId){
+        function showPopup(productId, type){
             itemId = productId;
+            deletePath = (type === 'account')? '/admin/user-delete' : '/admin/delete-category'
             document.getElementById('popup').style.display = 'flex';
         }
 
-        document.getElementById('send').addEventListener('click', () => handleData('', 'DELETE', '/admin/user-delete', false));
+        document.getElementById('send').addEventListener('click', () => handleData('', 'DELETE', deletePath, false));
         document.getElementById('close').addEventListener('click', function() {
             itemId= null;
             document.getElementById('popup').style.display = 'none';

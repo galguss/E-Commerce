@@ -82,8 +82,8 @@ const createProduct = async (req, res) => {
         if(typeof req.file !== 'undefined'){
             const { filename } = req.file;
             pathImage = `./uploads/${filename}`;
-            const pathFile = path.join(__dirname, imageDB.pathImage);
-            console.log(pathFile);
+            // const pathFile = path.join(__dirname, imageDB.pathImage);
+            // console.log(pathFile);
             /*fs.unlink(pathFile, (err) => {
                 if (err) {
                   console.error('Error deleting file:', err);
@@ -91,7 +91,7 @@ const createProduct = async (req, res) => {
                 }
               });*/
         }else{
-          pathImage = imageDB
+          pathImage = imageDB.pathImage
         }
 
         const product ={

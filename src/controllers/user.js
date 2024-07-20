@@ -30,7 +30,7 @@ const signUp = async (req, res) => {
     });
     
     user.save();
-    res.redirect("/user/sign-in");
+    res.redirect("/");
     //res.status(201).json({ message: "User created" });
   } catch (error) {
     console.error(error);

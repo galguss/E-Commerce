@@ -25,7 +25,7 @@
                         </div>
                         <% }) %>
                     </span>
-                    <span>date: <%= order._doc.date %></span>
+                    <span>date: <%= order._doc.date.toLocaleDateString() %></span>
                     <span>total: <%= order._doc.total %>&#8362;</span>
                 </li>
             <% }) %>
