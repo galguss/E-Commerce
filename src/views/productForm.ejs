@@ -70,7 +70,7 @@
           const formData = new FormData(form);
           const url = ($("#id").val() !== "") ? "/admin/update-product" : "/admin/create-product";
           const method = ($("#id").val() !== "") ? "PATCH" : "POST";
-          const location = ($("#id").val() !== "") ? "/" : "/admin/dashboard";
+          const location = ($("#id").val() !== "") ? "/home" : "/admin/dashboard";
 
           $.ajax({
             url,

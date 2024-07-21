@@ -3,9 +3,9 @@
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  /* justify-content: space-around; */
   margin-top: 20px;
   width: 100%;
+  justify-content: center;
 }
 
 .product {
@@ -29,7 +29,7 @@
 }
 
 .image > img {
-  width: 100%;
+  width: 50%;
   height: 160px;
   border-radius: 25%;
 }
@@ -57,20 +57,25 @@
 }
 
 .add,
-.delete {
+.delete,
+.edit {
   height: 35px;
-  width: 100%;
+  width: 33%;
   cursor: pointer;
-  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  gap: 2px;
 }
 
-.delete {
-  background-color: red;
+/* .delete {
+  background-color: rgb(220, 220, 220);
 }
 
 .add {
   background-color: blue;
-}
+} */
 
 #total {
   margin-top: 30px;
