@@ -1,16 +1,11 @@
 <nav>
-        <li><a href="/cart"><img src="/cart.png" alt="cart-icon"></a></li>
-        <li><a href="/">Home</a></li>
-        <% if(!token) {%>
-        <li><a href="/user/sign-up">Sign Up</a></li>  
-        <li><a href="/user/sign-in">Sign In</a></li>
-        <% } else { %>
+        <li><a href="/cart" id="cart-icon"><img src="/cart.png" alt="cart-icon"><span id="cart-count" class="badge">0</span></a></li>
+        <li><a href="/home">Home</a></li>
         <% if(user && user.role !== 'ADMIN'){ %>
-        <li><a href="/user/showOrders/<%= user._id %>">Orders</a></li>
+                <li><a href="/user/showOrders/<%= user._id %>">Orders</a></li>
         <% } %>
-        <li><a href="/user/logout">Logout</a></li>
-        <% } %> 
         <% if(user && user.role === 'ADMIN'){ %>
-        <li><a href="/admin/dashboard">Dashboard</a></li>
+                <li><a href="/admin/dashboard">Dashboard</a></li>
         <% } %>
+        <li><a id="logout" onclick="Cart.clearCart(event)" href="/user/logout">Logout</a></li> 
 </nav>

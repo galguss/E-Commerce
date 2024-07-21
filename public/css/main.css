@@ -37,11 +37,31 @@ nav{
 
 nav > li{
   list-style-type: none;
+  position: relative;
   font-size: 26px;
 }
 
-a > img{
+#cart-icon{
+  position: relative; 
+}
+
+#cart-icon > img{
   width: 40px;
+}
+
+.count{
+  margin-top: 10px;
+}
+
+.badge {
+  position: absolute;
+  top: -25px;
+  right: -10px;
+  padding: 5px 10px;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+  font-size: 12px;
 }
 
 .logo {

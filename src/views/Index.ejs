@@ -21,7 +21,7 @@
             </div>
             <span class="data"> <span><%= product.price %>&#8362;</span><span><%= product.description %></span></span>
             <span class="actions">
-              <button class="add" data-product="<%= JSON.stringify(product) %>" onclick="handleCart(this)">Add</button>
+              <button class="add" data-product="<%= JSON.stringify(product) %>" onclick="Cart.handleCart(this)">Add</button>
               <% if(user && user.role === 'ADMIN'){ %>
                   <button value="<%= product._id %>" onclick="showPopup(this.value)" class="delete">Delete</button class="delete">
                   <a href="/admin/dashboard/update-product/<%= product._id %>">Edit</a>
@@ -33,22 +33,17 @@
     </main>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuidv4.min.js"></script>
+    <script src="./js/LocalStorage.js"></script>
     <script>
-      const cartIsEmpty = JSON.parse(localStorage.getItem("cart"));
-      
-       if(cartIsEmpty === null ){
-          localStorage.setItem("cart",JSON.stringify([]));
-       }
-
+      const Cart = new LocalStorage();
+      document.getElementById('cart-count').innerText = Cart.quantityCart();
       let itemId = null;
 
-      function handleCart(button){
-        const product = JSON.parse(button.getAttribute('data-product'));
-        product.productCode = uuidv4();
-        cart = JSON.parse(localStorage.getItem("cart"));
-        cart.push(product);
-        localStorage.setItem("cart", JSON.stringify(cart));
-      }
+      // function handleLogout(event) {
+      //   event.preventDefault();
+      //   Cart.clearCart();
+      //   window.location.href = "/user/logout";
+      // }
 
       function handleDelete(){
         if(!itemId) return;
