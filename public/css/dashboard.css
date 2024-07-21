@@ -1,0 +1,26 @@
+.addProduct{
+    text-decoration: underline;
+}
+table{
+    width: 80%;
+}
+th,td{
+    border: black solid 1px;
+    text-align: center;
+}
+
+td > button{
+    width: 100%;
+}
+
+.title{
+    margin-top: 20px;
+}
+
+.add{
+    text-align: right;
+}
+
+.add > button{
+    width: 20%;
+}

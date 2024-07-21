@@ -1,0 +1,28 @@
+.title{
+    font-size: 30px;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+}
+
+form > label{
+    margin-top: 10px;
+}
+
+form > span{
+    margin-top: 10px;
+}
+
+form > input, select{
+    height: 40px;
+    margin-top: 5px;
+    padding: 0 10px;
+}
+
+.submit{
+    height: 40px;
+    background-color: blue;
+    color: white;
+}

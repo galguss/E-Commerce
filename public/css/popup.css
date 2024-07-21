@@ -1,0 +1,41 @@
+#popup {
+    display: none; 
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    top: -100%; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 400px;
+    background-color: rgba(0, 0, 0, 0.9); 
+    color: white;
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    border-radius: 10px;
+    animation: slide-down 0.5s forwards; 
+}
+
+#send, #close{
+    color: white;
+    padding: 10px;
+}
+
+#send{
+    background-color: green;
+}
+
+#close{
+    background-color: red;
+}
+
+@keyframes slide-down {
+    0% {
+        top: -100%;
+    }
+    100% {
+        top: 20%;
+    }
+}

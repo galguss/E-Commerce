@@ -1,0 +1,23 @@
+ul{
+   width: 60%; 
+}
+
+/* .productList{
+    display: flex;
+    flex-direction: column;
+} */
+ul > li{
+    margin-top: 10px;
+    border: black solid 2px;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+}
+
+.item{
+    display: flex;
+    margin: 5px 0;
+    flex-direction: column;
+    border: black solid 1px;
+    padding: 5px;
+}
