@@ -61,6 +61,7 @@ button {
     padding: 8px 12px;
     font-size: 14px;
     color: white;
+    background-color: black;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -71,22 +72,22 @@ button:hover {
     opacity: 0.8;
 }
 
-button[value]:not([onclick*="showPopup"]):not([onclick*="handleData"]) {
+/* button[value]:not([onclick*="showPopup"]):not([onclick*="handleData"]) {
     background-color: #007bff;
 }
 
 button[value]:not([onclick*="showPopup"]):not([onclick*="handleData"]):hover {
     background-color: #0056b3;
-}
+}*/
 
 button[onclick*="showPopup"] {
     background-color: #dc3545;
 }
-
-button[onclick*="showPopup"]:hover {
+ 
+ button[onclick*="showPopup"]:hover {
     background-color: #c82333;
 }
-
+/*
 button[onclick*="handleData"]:not([onclick*="showPopup"]) {
     background-color: #ffc107;
 }
@@ -101,7 +102,7 @@ button[onclick*="handleData"]:not([onclick*="showPopup"])[value=""]:not([onclick
 
 button[onclick*="handleData"]:not([onclick*="showPopup"])[value=""]:not([onclick*="showPopup"]):hover {
     background-color: #218838;
-}
+} */
 
 /* Add button style */
 .add button {

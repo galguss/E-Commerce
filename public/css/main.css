@@ -30,8 +30,10 @@ header {
   border-bottom: 1px solid rgba(69, 69, 69, 0.425);
 }
 
+
 header > img {
   width: 80px;
+  cursor: pointer;
 }
 
 nav {
@@ -134,8 +136,11 @@ nav > li {
   nav {
     width: 100%;
   }
+  nav > li{
+    font-size: 16px;
+  }
 
   header > img {
-    width: 65px;
+    display: none;
   }
 }

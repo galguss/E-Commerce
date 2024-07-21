@@ -66,6 +66,7 @@
               }),
                 success: function(response) {
                     localStorage.removeItem("cart");
+                    window.location.href = '/home';
                 },
                 error: function(error) {
                   $("#message_error").text(error?.responseJSON?.message);

@@ -63,3 +63,18 @@ h2 {
 .order-total {
   color: #444;
 }
+
+@media (max-width: 864px) {
+  .order-card {
+    width:100%;
+  }
+
+  .orders {
+    gap: 10px;
+  }
+
+  .order-details, .product-item {
+    flex-wrap: wrap;
+
+  }
+}
