@@ -6,6 +6,7 @@
     <link href="css/main.css" rel="stylesheet" />
     <link href="css/shop.css" rel="stylesheet" />
     <link href="css/popup.css" rel="stylesheet" />
+
     <title>Dynamic production line</title>
   </head>
   <body>
@@ -38,12 +39,6 @@
       const Cart = new LocalStorage();
       document.getElementById('cart-count').innerText = Cart.quantityCart();
       let itemId = null;
-
-      // function handleLogout(event) {
-      //   event.preventDefault();
-      //   Cart.clearCart();
-      //   window.location.href = "/user/logout";
-      // }
 
       function handleDelete(){
         if(!itemId) return;

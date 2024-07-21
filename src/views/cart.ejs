@@ -34,7 +34,7 @@
             <div class="image">
             <img src="${product.pathImage}" alt="product">
             </div>
-            <span class="data"><span>${product.price} &#8362;</span><span>${product.description}</span></span>
+            <span class="data"><span>${product.price}&#8362;</span><span>${product.description}</span></span>
             <span class="count">X${product.quantity}</span>
             <span class="actions"> 
             <button onclick="Cart.handleRemove('${product._id}')" class="delete">Delete</button class="delete">    
@@ -45,7 +45,7 @@
          function calculationTotal(){
             let total = 0;
             products.map(product => total += Number(product.price) * Number(product.quantity))
-            return total;
+            return `${total}&#8362;`;
          }
 
          function productsArray(){
