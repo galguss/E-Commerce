@@ -31,9 +31,9 @@
                     <td><%= account.role %></td>
                     <td><%= account.address %></td>
                     <td><%= account.phoneNumber %></td>
-                    <td><button value="<%= account._id %>" onclick="handleData(this.value, 'PATCH', '/admin/user-upgrade',false)">upgrade</button></td>
+                    <td><button value="<%= account._id %>" onclick="handleData(this.value, 'PATCH', '/admin/user-upgrade',false)">Upgrade</button></td>
                     <td><button value="<%= account._id %>" onclick="handleData(this.value, 'PATCH', '/admin/user-update',true)">Edit</button></td>
-                    <td><button value="<%= account._id %>" onclick="showPopup(this.value, 'account')">delete</button></td>
+                    <td><button value="<%= account._id %>" onclick="showPopup(this.value, 'account')">Delete</button></td>
                 </tr>
             <% }); %>
         </table>
@@ -41,7 +41,7 @@
         <h2 class="title">categories:</h2>
         <table>
             <tr>
-                <th colspan="3" class="add"><button onclick="handleData('','','/admin/add-category',true)">add+</button></th>
+                <th colspan="3" class="add"><button onclick="handleData('','','/admin/add-category',true)">Add+</button></th>
             </tr>
             <tr>
                 <th>category</th>
@@ -51,7 +51,7 @@
                 <tr>
                     <td><%= category.category %></td>
                     <td><button value="<%= category._id %>" onclick="handleData(this.value, 'PATCH', '/admin/edit-category',true)">Edit</button></td>
-                    <td><button value="<%= category._id %>" onclick="showPopup(this.value, 'category')">delete</button></td>
+                    <td><button value="<%= category._id %>" onclick="showPopup(this.value, 'category')">Delete</button></td>
                 </tr>
             <% }); %>
         </table>

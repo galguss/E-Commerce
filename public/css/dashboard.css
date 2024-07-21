@@ -1,26 +1,113 @@
-.addProduct{
-    text-decoration: underline;
+h2 {
+    text-align: left;
+    margin-bottom: 20px;
+    color: #444;
+    font-size: 24px;
 }
-table{
-    width: 80%;
+
+h2.title {
+    margin-top: 40px;
 }
-th,td{
-    border: black solid 1px;
+
+.addProduct {
+    display: inline-block;
+    margin: 20px 0;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.addProduct:hover {
+    background-color: #218838;
+}
+
+/* Table styles */
+table {
+    width: 95%;
+    border-collapse: collapse;
+    margin-bottom: 40px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px 15px;
+    text-align: left;
+    font-size: 16px;
+}
+
+th {
+    background-color: #444;
+    color: white;
+    text-transform: capitalize;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+th.add, td.add {
     text-align: center;
 }
 
-td > button{
-    width: 100%;
+/* Button styles */
+button {
+    padding: 8px 12px;
+    font-size: 14px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.title{
-    margin-top: 20px;
+button:hover {
+    opacity: 0.8;
 }
 
-.add{
-    text-align: right;
+button[value]:not([onclick*="showPopup"]):not([onclick*="handleData"]) {
+    background-color: #007bff;
 }
 
-.add > button{
-    width: 20%;
+button[value]:not([onclick*="showPopup"]):not([onclick*="handleData"]):hover {
+    background-color: #0056b3;
+}
+
+button[onclick*="showPopup"] {
+    background-color: #dc3545;
+}
+
+button[onclick*="showPopup"]:hover {
+    background-color: #c82333;
+}
+
+button[onclick*="handleData"]:not([onclick*="showPopup"]) {
+    background-color: #ffc107;
+}
+
+button[onclick*="handleData"]:not([onclick*="showPopup"]):hover {
+    background-color: #e0a800;
+}
+
+button[onclick*="handleData"]:not([onclick*="showPopup"])[value=""]:not([onclick*="showPopup"]) {
+    background-color: #28a745;
+}
+
+button[onclick*="handleData"]:not([onclick*="showPopup"])[value=""]:not([onclick*="showPopup"]):hover {
+    background-color: #218838;
+}
+
+/* Add button style */
+.add button {
+    background-color: #28a745;
+}
+
+.add button:hover {
+    background-color: #218838;
 }

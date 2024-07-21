@@ -1,41 +1,72 @@
 #popup {
-    display: none; 
-    align-items: center;
-    justify-content: space-between;
-    position: fixed;
-    top: -100%; 
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
-    max-width: 400px;
-    background-color: rgba(0, 0, 0, 0.9); 
-    color: white;
-    text-align: center;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    border-radius: 10px;
-    animation: slide-down 0.5s forwards; 
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 650px;
+  height: 250px;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+  text-align: center;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  border-radius: 10px;
+  animation: slide-down 0.5s forwards;
+  transition: top 0.5s ease-out;
+  flex-direction: column;
 }
 
-#send, #close{
-    color: white;
-    padding: 10px;
+.btn_action{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    gap: 20px;
+    
 }
 
-#send{
-    background-color: green;
+.popup-content {
+  width: 100%;
 }
 
-#close{
-    background-color: red;
+.popup-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  gap: 20px;
+}
+
+#send,
+#close {
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#send {
+  background-color: red;
+}
+
+#send:hover {
+  background-color: darkred;
+}
+
+#close {
+  background-color: rgb(0, 0, 0);
 }
 
 @keyframes slide-down {
-    0% {
-        top: -100%;
-    }
-    100% {
-        top: 20%;
-    }
+  0% {
+    top: -100%;
+  }
+  100% {
+    top: 20%;
+  }
 }

@@ -8,45 +8,43 @@
     <title>Dynamic production line</title>
   </head>
   <body>
-    <%- include('logo') %>
     <main class="container">
       <h2 class="title">Account Update</h2>
-        <form id="sing_up">
-        <input type="hidden" id="id" name="id" value="<%= account._id %>">
-          <label for="full_name">Full Name:</label>
-          <input
-            type="text"
-            id="full_name"
-            name="full_name"
-            value="<%= account.fullName %>"
-            require
-          />
-          <label for="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value="<%= account.email %>"
-            require
-          />
-          <label for="address">Address:</label>
-          <input
-            type="text"
-            id="address"
-            name="address"
-            value="<%= account.address %>"
-            require
-          />
-          <label for="phone_number">Phone Number:</label>
-          <input
-            type="text"
-            id="phone_number"
-            name="phone_number"
-            value="<%= account.phoneNumber %>"
-            require
-          />
-          <span id="message_error"></span>
-        <span>User exist? <a href="/user/sign-in">Sign In</a></span>
+      <form id="sing_up">
+        <input type="hidden" id="id" name="id" value="<%= account._id %>" />
+        <label for="full_name">Full Name:</label>
+        <input
+          type="text"
+          id="full_name"
+          name="full_name"
+          value="<%= account.fullName %>"
+          require
+        />
+        <label for="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value="<%= account.email %>"
+          require
+        />
+        <label for="address">Address:</label>
+        <input
+          type="text"
+          id="address"
+          name="address"
+          value="<%= account.address %>"
+          require
+        />
+        <label for="phone_number">Phone Number:</label>
+        <input
+          type="text"
+          id="phone_number"
+          name="phone_number"
+          value="<%= account.phoneNumber %>"
+          require
+        />
+        <span id="message_error"></span>
 
         <button class="submit">Submit</button>
       </form>

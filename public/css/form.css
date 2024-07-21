@@ -20,9 +20,3 @@ form > input, select{
     margin-top: 5px;
     padding: 0 10px;
 }
-
-.submit{
-    height: 40px;
-    background-color: blue;
-    color: white;
-}
