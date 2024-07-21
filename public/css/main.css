@@ -117,4 +117,16 @@ nav > li {
   #sing_up {
     width: 100%;
   }
+
+  .submit {
+    flex-direction: column;
+  }
+
+  nav {
+    width: 100%;
+  }
+
+  header > img {
+    width: 65px;
+  }
 }

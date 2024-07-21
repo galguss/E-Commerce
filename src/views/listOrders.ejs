@@ -1,36 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="/css/main.css" rel="stylesheet" />
     <link href="/css/list.css" rel="stylesheet" />
     <title>Dynamic production line</title>
-</head>
-<body>
+  </head>
+  <body>
     <%- include('header') %>
     <main class="container">
-        <h2>Order history:</h2>
-        <ul>
-            <% orders.map(order => { %>
-                <% console.log(order) %>
-                <li>
-                    <span class="productList">products: 
-                        <br/>
-                        <% order.productList.map(item => {%>
-                        <div class="item">
-                            <span>product: <%= item.productName %></span>
-                            <span>description: <%= item.description %></span>
-                            <span>price: <%= item.price %>&#8362;</span>
-                        </div>
-                        <% }) %>
-                    </span>
-                    <span>date: <%= order._doc.date.toLocaleDateString() %></span>
-                    <span>total: <%= order._doc.total %>&#8362;</span>
-                </li>
+      <h2>Order history:</h2>
+      <div class="orders">
+        <% orders.map(order => { %>
+        <div class="order-card">
+          <div class="order-products">
+            <% order.productList.map(item => { %>
+            <div class="product-item">
+              <span class="product-name">Product: <%= item.productName %></span>
+              <span class="product-description"
+                >Description: <%= item.description %></span
+              >
+              <span class="product-price">Price: <%= item.price %>&#8362;</span>
+            </div>
             <% }) %>
-
-        </ul>
+          </div>
+          <div class="order-details">
+            <span class="order-date"
+              >Date: <%= order._doc.date.toLocaleDateString() %></span
+            >
+            <span class="order-total">Total: <%= order._doc.total %>&#8362;</span>
+          </div>
+        </div>
+        <% }) %>
+      </div>
     </main>
-</body>
+  </body>
 </html>
