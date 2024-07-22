@@ -2,7 +2,7 @@
         <li><a href="/cart" id="cart-icon"><img src="/cart.png" alt="cart-icon"><span id="cart-count" class="badge">0</span></a></li>
         <li><a href="/home">Home</a></li>
         <% if(user && user.role !== 'ADMIN'){ %>
-                <li><a href="/user/showOrders/<%= user._id %>">Orders</a></li>
+                <li><a href="/user/showOrders/<%= user.id %>">Orders</a></li>
         <% } %>
         <% if(user && user.role === 'ADMIN'){ %>
                 <li><a href="/admin/dashboard">Dashboard</a></li>

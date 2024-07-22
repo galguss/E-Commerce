@@ -61,10 +61,9 @@ const signIn = async (req, res) => {
     const userIsLogin = await compareHash(password, user.password);
 
     if (userIsLogin) {
-      const token = await generateToken({id:user._id, email:user.email});
+      const token = await generateToken({id:user._id, email:user.email, role: user.role});
       
       res.cookie("token", token, { httpOnly: true });
-      res.cookie("user", user, { httpOnly: true });
 
       return res.status(200).json({ message: "Auth success" });
     }

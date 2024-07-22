@@ -1,4 +1,5 @@
 const Orders = require("../modules/Orders");
+const { verifyToken } = require("../lib/utils");
 const Product = require("../modules/Product");
 const {
   ordersSchema,
@@ -22,12 +23,20 @@ const searchOrders = async (req, res) => {
     // join
     const enhancedOrders = orders.map((order) => {
       const enhancedProductList = order.productList
-        .map((itemId) => {
-          return products.filter(
-            (product) => product._id.toString() === itemId.toString()
-          )[0];
+        .map((item) => {
+          const product = products.find(
+            (product) => product._id.toString() === item.product.toString()
+          );
+          if (product) {
+            return {
+              ...product,
+              quantity: item.quantity,
+            };
+          }
+          return undefined;
         })
         .filter((product) => product !== undefined);
+    
       return {
         ...order,
         productList: enhancedProductList,
@@ -37,7 +46,7 @@ const searchOrders = async (req, res) => {
     res
       .status(200)
       .render("listOrders", {
-        user: req.cookies.user,
+        user: verifyToken(req.cookies.token),
         token: req.cookies.token,
         orders: enhancedOrders,
       });
@@ -56,18 +65,13 @@ const searchOrders = async (req, res) => {
 const createOrder = async (req, res) => {
   try {
     const { userId, productList, total } = ordersSchema.parse(req.body);
-
-    // let dateObj = new Date();
-    // let yyyy = dateObj.getFullYear();
-    // let mm = dateObj.getMonth();
-
+    
     const product = new Orders({
       userId,
       productList,
       date: new Date(),
       total,
     });
-
     product.save();
     res.status(201).json({ message: "order created" });
   } catch (error) {

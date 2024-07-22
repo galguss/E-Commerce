@@ -14,7 +14,7 @@
         <section id="cart"></section>
         <h2 id="total">total: </h2>
         <% if(token){ %>
-            <button value="<%= user._id %>" onclick="handleBay(this.value)" id="buy">buy</button>
+            <button value="<%= user.id %>" onclick="handleBay(this.value)" id="buy">buy</button>
         <% } %>
     </main>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -27,6 +27,8 @@
         document.getElementById('cart-count').innerHTML = Cart.quantityCart();
         
         let cartBody = ``;
+
+        if(products.length === 0){cartBody += "Cart is Empty"}
 
         products.map((product) =>{
           
@@ -50,7 +52,11 @@
 
          function productsArray(){
             let array = [];
-            products.map(product => array.push(product._id))
+            products.map(product => {
+                item = {product: product._id, quantity: product.quantity };
+                array.push(item);
+            });
+
             return array;
          }
 
