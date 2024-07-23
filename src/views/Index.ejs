@@ -13,16 +13,50 @@
     <%- include('header') %> <%- include('popup') %>
     <main class="container">
       <h1>Welcome to shopping</h1>
+      <!-- <aside>
+          <h3>Search</h3>
+          <label for="productName">Product Name:</label>
+          <input
+            type="text"
+            id="productName"
+            name="productName"
+            required
+          />
+          <button onclick="handleSearch()">Search</button>
+  
+          <form id="filter">
+            <h3>Advanced Search</h3>
+            <label for="productName">Product Name:</label>
+            <input
+              type="text"
+              id="productName"
+              name="productName"
+            />
+            <label for="price">price:</label>
+            <input
+              type="text"
+              id="price"
+              name="price"
+            />
+            <label for="category">category:</label>
+            <select id="categories" id="category" name="category">
+              <% categories.map(category => { %>
+                  <option value="<%= category._id %>"><%= category.category %></option>
+              <% }) %>
+            </select>
+            <button onclick="handleFilter()">Search</button>
+          </form>
+      </aside> -->
       <section class="shop">
         <% products.map((product) => {%>
         <div class="product">
+          <span><%= product.productName %></span></span>
           <div class="image">
             <img src="<%= product.pathImage %>" alt="product" />
           </div>
           <span class="data">
-            <span><%= product.price %>&#8362;</span
-            ><span><%= product.description %></span></span
-          >
+            <span><%= product.price %>&#8362;</span>
+            <span><%= product.description %></span></span>
           <div class="actions">
             <button
               class="add"
@@ -56,6 +90,87 @@
       const Cart = new LocalStorage();
       document.getElementById("cart-count").innerText = Cart.quantityCart();
       let itemId = null;
+
+    //   function handleSearch() {
+    //     console.log("Search")
+    //     $.ajax({
+    //       url: "/admin/search-product",
+    //       method: "POST",
+    //       contentType: "application/json",
+    //       data: JSON.stringify({
+    //         productName: $("#productName").val(),
+    //       }),
+    //       success: function (response) {
+    //         updateProductList(response.products);
+    //       },
+    //       error: function (error) {
+    //         $("#message_error").text(error?.responseJSON?.message);
+    //       },
+    //     });
+    // }
+
+    // function handleFilter() {
+    //     $(document).ready(function () {
+    //     $("#filter").submit(function (event) {
+    //       event.preventDefault();
+    //       $.ajax({
+    //         url: "/admin/filter-product",
+    //         method: "POST",
+    //         contentType: "application/json",
+    //         data: JSON.stringify({
+    //           productName: $("#productName").val(),
+    //           price: $("#price").val(),
+    //           category: $("#category").val(),
+    //         }),
+    //         success: function (response) {
+    //           //window.location.href = "/home";
+    //         },
+    //         error: function (error) {
+    //           $("#message_error").text(error?.responseJSON?.message);
+    //         },
+    //       });
+    //     });
+    //   });
+    // }
+
+//     function updateProductList(product) {
+//     const shopSection = $(".shop");
+//     //shopSection.empty();
+
+//         const productHtml = `
+//             <div class="product">
+//                 <span>${product.productName}</span>
+//                 <div class="image">
+//                     <img src="${product.pathImage}" alt="product" />
+//                 </div>
+//                 <span class="data">
+//                     <span>${product.price}&#8362;</span>
+//                     <span>${product.description}</span>
+//                 </span>
+//                 <div class="actions">
+//                     <button
+//                         class="add"
+//                         data-product='${JSON.stringify(product)}'
+//                         onclick="Cart.handleCart(this)"
+//                     >
+//                         Add
+//                     </button>
+//                     <% if(user && user.role === 'ADMIN'){ %>
+//                     <button
+//                         value="${product._id}"
+//                         onclick="showPopup(this.value)"
+//                         class="delete"
+//                     >
+//                         Delete
+//                     </button>
+//                     <button class="edit">
+//                         <a href="/admin/dashboard/update-product/${product._id}"> Edit </a>
+//                     </button>
+//                     <% } %>
+//                 </div>
+//             </div>`;
+//         shopSection.append(productHtml);
+// }
 
       function handleDelete() {
         if (!itemId) return;

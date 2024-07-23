@@ -1,12 +1,37 @@
 const Product = require("../modules/Product");
-const { productSchema, productUpdateSchema, searchProductSchema, deleteProductSchema } = require("../lib/validators/produc");
+const { productSchema, productUpdateSchema, searchProductSchema, deleteProductSchema, filterSchema} = require("../lib/validators/produc");
 const { z } = require("zod");
-const path = require('path');
-const fs = require('fs');
+// const path = require('path');
+//const fs = require('fs');
 
 const getAllProducts = async (req, res) => {
     const products = await Product.find();
     res.status(200).json(products);
+}
+
+const filterForProduct = async (req, res) =>{
+  try {
+    const {productName, price, category} =  req.body;
+    
+    
+    const filter = await Product.find({
+      ...(productName? {productName} : {}),
+      ...(price? {price} : {}),
+      ...(category? {category} : {}),
+    })
+
+    res.render("index", {user: verifyToken(req.cookies.token), token: req.cookies.token, products:filter});
+    
+  } catch (error) {
+    console.log(error);
+
+      // if (error instanceof z.ZodError) {
+      //     const { message } = error.errors[0];
+      //     return res.status(422).json({ message: `Validation Error: ${message}` });
+      // }
+
+      res.status(500).json({ message: "Internal Server Error" }); 
+  }
 }
 
 const searchProduct = async (req, res) => {
@@ -15,7 +40,7 @@ const searchProduct = async (req, res) => {
             req.body
         );
 
-        const product = await Product.findOne({ productName });
+        let product = await Product.findOne({ productName });
 
         if(!product){
           return  res.status(404).json({ message: "This product does not exist in the system" });
@@ -152,5 +177,6 @@ module.exports = {
   searchProduct,
   createProduct,
   updateproduct,
-  deleteProduct
+  deleteProduct,
+  filterForProduct
 };

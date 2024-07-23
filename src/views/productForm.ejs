@@ -44,13 +44,6 @@
             name="image"
           />
           <label for="category">category:</label>
-          <!-- <input
-            type="text"
-            id="category"
-            name="category"
-            list="categories"
-            required
-          /> -->
           <select id="categories" id="category" name="category" required>
             <% categories.map(category => { %>
                 <option value="<%= category._id %>"><%= category.category %></option>

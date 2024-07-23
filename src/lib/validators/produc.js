@@ -6,6 +6,12 @@ const productSchema = z.object({
     price: z.string(),
     category: z.string(),
   });
+
+  const filterSchema = z.object({
+    productName: z.string(),
+    price: z.number(),
+    category: z.string()
+  })
   
   const productUpdateSchema = z.object({
     id: z.string(),
@@ -27,5 +33,6 @@ const productSchema = z.object({
     productSchema,
     productUpdateSchema,
     searchProductSchema,
-    deleteProductSchema
+    deleteProductSchema,
+    filterSchema
   };

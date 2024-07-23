@@ -12,6 +12,6 @@ router.use("/admin", adminOnly, require("./dashboard"));
 
 router.use("/admin", adminOnly, require("./accounts"));
 router.use("/admin", adminOnly, require("./category"));
-router.use("/admin", adminOnly, require("./product"));
+router.use("/admin", require("./product"));
 
 module.exports = router;
