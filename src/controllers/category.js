@@ -43,7 +43,7 @@ const searchCategory = async (req, res) => {
         if(!item){
           return  res.status(404).json({ message: "This category does not exist in the system" });
         }
-
+        console.log(category);
         res.status(200).json(item);
         
     } catch (error) {

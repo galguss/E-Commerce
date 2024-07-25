@@ -9,7 +9,7 @@ const userUpdateSchema = z.object({
 });
   
 const searchUserSchema = z.object({
-  email: z.string().email()
+  address: z.string()
 });
 
 const upgradeSchema = z.object({

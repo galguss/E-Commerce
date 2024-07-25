@@ -20,6 +20,31 @@ a {
   min-height: 600px;
 }
 
+video{
+  width: 80%;
+  height:300px;
+}
+
+.filterAndVideo{
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  width: 80%;
+}
+.filter{
+  min-height: 300px;
+  margin: 5px;
+  display: flex;
+  align-self: flex-end;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.filter > button{
+  margin: 10px 0;
+}
+
 header {
   width: 80%;
   height: 100px;

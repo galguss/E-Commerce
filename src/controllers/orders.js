@@ -1,10 +1,12 @@
 const Orders = require("../modules/Orders");
 const { verifyToken } = require("../lib/utils");
+const User = require("../modules/User");
 const Product = require("../modules/Product");
 const {
   ordersSchema,
   searchOrdersSchema,
-  ordersGroupBySchema
+  ordersGroupBySchema,
+  orderConfirmationSchema
 } = require("../lib/validators/orders");
 const { z } = require("zod");
 
@@ -81,6 +83,119 @@ const ordersGroupBy = async (req, res) => {
   }
 }
 
+const getUserOrder = async (req, res) => {
+  try {
+    const { userId } = searchOrdersSchema.parse(req.body);
+    const accounts = await User.find({ fullName:userId });
+    const orders = await Orders.find({userId: accounts[0]._id});
+    const products = await Product.find();
+
+    if (!accounts) {
+      return res
+        .status(404)
+        .json({ message: "User not found in the system" });
+    }
+
+    const enhancedOrders = orders.map((order) => {
+      const enhancedProductList = order.productList
+        .map((item) => {
+          const product = products.find(
+            (product) => product._id.toString() === item.product.toString()
+          );
+          if (product) {
+            return {
+              ...product._doc,
+              quantity: item.quantity,
+            };
+          }
+          return undefined;
+        })
+        .filter((product) => product !== undefined);
+
+      const user = accounts.find(user => order.userId === user._id.toString());
+      const userName = user ? user.fullName : 'Unknown User';
+
+      return {
+        ...order._doc,
+        userId: userName,
+        productList: enhancedProductList,
+      };
+    });
+
+    res.status(200).json(enhancedOrders)
+    
+  } catch (error) {
+    console.log(error);
+
+    if (error instanceof z.ZodError) {
+      const { message } = error.errors[0];
+      return res.status(422).json({ message: `Validation Error: ${message}` });
+    }
+
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+const filterForOrder = async (req, res) => {
+  try {
+    const { fullName, date, status } = req.body;
+    const user = await User.findOne({ fullName }); 
+    const userId = user ? user._id : null;
+
+    const query = {};
+    if (userId) query.userId = userId;
+
+    if (date) {
+      const startDate = new Date(date);
+      startDate.setHours(0, 0, 0, 0);
+      
+      const endDate = new Date(date);
+      endDate.setHours(23, 59, 59, 999);
+
+      query.date = { $gte: startDate, $lte: endDate };
+    } 
+    if (status) query.status = status;
+
+    const filter = await Orders.find(query);
+
+    const products = await Product.find();
+    const accounts = await User.find(); 
+
+    const enhancedOrders = filter.map((order) => {
+      const enhancedProductList = order.productList
+        .map((item) => {
+          const product = products.find(
+            (product) => product._id.toString() === item.product.toString()
+          );
+          if (product) {
+            return {
+              ...product._doc, 
+              quantity: item.quantity,
+            };
+          }
+          return undefined;
+        })
+        .filter((product) => product !== undefined);
+
+      const user = accounts.find(user => order.userId.toString() === user._id.toString());
+      const userName = user ? user.fullName : 'Unknown User';
+
+      return {
+        ...order._doc, 
+        userId: userName,
+        productList: enhancedProductList,
+      };
+    });
+    
+    res.status(200).json(enhancedOrders);
+    
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
 const searchOrders = async (req, res) => {
   try {
     const { userId } = searchOrdersSchema.parse(req.params);
@@ -103,7 +218,7 @@ const searchOrders = async (req, res) => {
           );
           if (product) {
             return {
-              ...product,
+              ...product._doc,
               quantity: item.quantity,
             };
           }
@@ -112,7 +227,7 @@ const searchOrders = async (req, res) => {
         .filter((product) => product !== undefined);
     
       return {
-        ...order,
+        ...order._doc,
         productList: enhancedProductList,
       };
     });
@@ -160,8 +275,37 @@ const createOrder = async (req, res) => {
   }
 };
 
+const orderConfirmation = async (req,res) => {
+  try {
+    const {status,id} = orderConfirmationSchema.parse(
+      req.body
+    );
+
+    const order = {
+      status
+    };
+
+    console.log(req.body);
+
+    await Orders.findByIdAndUpdate(id, order);
+    res.status(200).json({ message: "Order Upgraded" });
+  } catch (error) {
+    console.error(error);
+
+    if (error instanceof z.ZodError) {
+      const { message } = error.errors[0];
+      return res.status(422).json({ message: `Validation Error: ${message}` });
+    }
+
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
 module.exports = {
   searchOrders,
   createOrder,
-  ordersGroupBy
+  ordersGroupBy,
+  orderConfirmation,
+  getUserOrder,
+  filterForOrder
 };

@@ -14,10 +14,16 @@ const searchOrdersSchema = z.object({
 const ordersGroupBySchema = z.object({
     month: z.string(),
     year: z.string()
-})
+});
+
+const orderConfirmationSchema = z.object({
+    id: z.string(),
+    status: z.string()
+});
 
 module.exports = {
     ordersSchema,
     searchOrdersSchema,
-    ordersGroupBySchema
+    ordersGroupBySchema,
+    orderConfirmationSchema
   };

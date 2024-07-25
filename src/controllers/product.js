@@ -13,14 +13,13 @@ const filterForProduct = async (req, res) =>{
   try {
     const {productName, price, category} =  req.body;
     
-    
     const filter = await Product.find({
       ...(productName? {productName} : {}),
       ...(price? {price} : {}),
       ...(category? {category} : {}),
     })
-
-    res.render("index", {user: verifyToken(req.cookies.token), token: req.cookies.token, products:filter});
+    
+    res.status(200).json(filter);
     
   } catch (error) {
     console.log(error);
@@ -46,7 +45,7 @@ const searchProduct = async (req, res) => {
           return  res.status(404).json({ message: "This product does not exist in the system" });
         }
 
-        res.status(200).json(product);
+        res.status(200).json([product]);
         
     } catch (error) {
         console.log(error);

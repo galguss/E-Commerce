@@ -61,17 +61,17 @@ const upgradeAccount = async (req, res) => {
 
 const searchAccount = async (req, res) => {
     try {
-        const { email } = searchUserSchema.parse(
+        const { address } = searchUserSchema.parse(
             req.body
         );
 
-        const account = await User.findOne({ email });
+        const accounts = await User.find({ address });
 
-        if(!account){
+        if(!accounts){
           return  res.status(404).json({ message: "This user does not exist in the system" });
         }
 
-        res.status(200).json(account);
+        res.status(200).json(accounts);
         
     } catch (error) {
         console.log(error);

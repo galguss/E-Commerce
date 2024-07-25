@@ -14,6 +14,7 @@ const UserSchema = mongoose.Schema({
   fullName: {
     type: String,
     require: true,
+    unique: true,
   },
   role: {
     type: String,

@@ -16,6 +16,12 @@ const OrdersSchema = mongoose.Schema({
     total:{
         type: Number,
         require: true
+    },
+    status:{
+        type: String,
+        default: 'Awaiting confirmation',
+        enum: ['Awaiting confirmation', 'confirmed', 'not confirmed'],
+        require: true
     }
 });
 

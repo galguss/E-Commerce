@@ -5,7 +5,7 @@ const { verifyToken } = require("../lib/utils");
 const showShop = async (req, res) => {
     const products = await Product.find();
     const categories = await Category.find();
-    res.render("index", {user: verifyToken(req.cookies.token), token: req.cookies.token, products, categories});
+    res.render("index", {user: verifyToken(req.cookies.token), token: req.cookies.token, products, categories:[{}, ...categories]});
 }
 
 const showCart = async (req, res) => {
