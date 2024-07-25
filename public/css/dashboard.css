@@ -13,6 +13,11 @@ h2.title {
     margin-top: 40px;
 }
 
+#salesChart {
+    width: 400px;
+    height: 400px;
+}
+
 .addProduct {
     display: inline-block;
     margin: 20px 0;
