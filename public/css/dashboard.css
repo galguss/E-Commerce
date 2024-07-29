@@ -18,6 +18,10 @@ h2.title {
     height: 400px;
 }
 
+#temp{
+    display: none;
+}
+
 .addProduct {
     display: inline-block;
     margin: 20px 0;

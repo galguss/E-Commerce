@@ -34,11 +34,16 @@ video{
 .filter{
   min-height: 300px;
   margin: 5px;
+  width: 20%;
   display: flex;
+  flex-wrap: wrap;
   align-self: flex-end;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+}
+#date{
+  height: 16px;
+  margin: 0 4px;
 }
 
 .filter > button{
@@ -61,11 +66,30 @@ header > img {
   cursor: pointer;
 }
 
+.weather{
+  width: 40px;
+  cursor: pointer;
+}
+
+#temp{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 140px;
+}
+
+#temp-value{
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+
 nav {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  width: 40%;
+  width: 60%;
 }
 
 nav > li {

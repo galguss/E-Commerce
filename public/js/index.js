@@ -1,7 +1,21 @@
 const Cart = new LocalStorage();
       document.getElementById("cart-count").innerText = Cart.quantityCart();
-      let itemId = null;
 
+      let itemId = null;
+      const tempElement = document.getElementById('temp');
+
+      tempElement.addEventListener('mouseover', function() {
+        if(this.ariaValueNow >= 25 && this.ariaValueNow <= 30){
+          document.getElementById('temp-value').innerHTML = `temp:${this.ariaValueNow}°C Great time for yoga`
+        }else{
+          document.getElementById('temp-value').innerHTML = this.ariaValueNow + '°C';
+        }
+      });
+
+      tempElement.addEventListener('mouseout', function() {
+          document.getElementById('temp-value').innerHTML = "";
+      });
+      
       function handleSearch(role) {
         $.ajax({
           url: "/admin/search-product",

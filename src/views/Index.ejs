@@ -16,28 +16,28 @@
         <%- include('video') %>
       <aside class="filter">
           <h3>Search</h3>
-          <label for="productName">Product Name:</label>
           <input
             type="text"
             id="productName"
             name="productName"
+            placeholder="Enter product name"
             required
           />
           <button value="<%= user.role %>" onclick="handleSearch(this.value)">Search</button>
   
           
             <h3>Advanced Search</h3>
-            <label for="productName">Product Name:</label>
             <input
               type="text"
               id="productName"
               name="productName"
+              placeholder="Enter product name"
             />
-            <label for="price">price:</label>
             <input
               type="text"
               id="price"
               name="price"
+              placeholder="Enter price"
             />
             <label for="category">category:</label>
             <select id="category" name="category">
