@@ -6,7 +6,7 @@ const Cart = new LocalStorage();
 
       tempElement.addEventListener('mouseover', function() {
         if(this.ariaValueNow >= 25 && this.ariaValueNow <= 30){
-          document.getElementById('temp-value').innerHTML = `temp:${this.ariaValueNow}°C Great time for yoga`
+           document.getElementById('temp-value').innerHTML = `temp:${this.ariaValueNow}°C\n <p class='yoga'>Great time for yoga</p>`
         }else{
           document.getElementById('temp-value').innerHTML = this.ariaValueNow + '°C';
         }

@@ -79,6 +79,10 @@ header > img {
   width: 140px;
 }
 
+.yoga{
+  color: green;
+}
+
 #temp-value{
   margin-top: 10px;
   font-size: 14px;

@@ -24,13 +24,12 @@ const showShop = async (req, res) => {
             const weather = `${url_weather}&lon=${lon}&lat=${lat}`;
 
             const weather_ress = await axios.get(weather);
-            temperatore = weather_ress.data.main.temp
+            temperatore = {temp:weather_ress.data.main.temp , icon:weather_ress.data.weather[0].icon}
         }
         else
         {
            return res.status(404).send("No results found");
         }
-        req.temperatore = temperatore;
         res.render("index", {user: verifyToken(req.cookies.token), token: req.cookies.token, products, categories:[{}, ...categories], temperatore});
         
     } catch (error) {

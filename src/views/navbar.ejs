@@ -1,5 +1,5 @@
 <nav>
-        <li id="temp" aria-valuenow="<%= temperatore %>"><img class="weather" src="/hot.png" alt="weather-icon"><span id="temp-value"></span></li>
+        <li id="temp" aria-valuenow="<%= temperatore.temp %>"><img class="weather" src="http://openweathermap.org/img/wn/<%= temperatore.icon %>@2x.png" alt="weather-icon"><span id="temp-value"></span></li>
         <li><a href="/cart" id="cart-icon"><img src="/cart.png" alt="cart-icon"><span id="cart-count" class="badge">0</span></a></li>
         <li><a href="/home">Home</a></li>
         <% if(user && user.role !== 'ADMIN'){ %>
