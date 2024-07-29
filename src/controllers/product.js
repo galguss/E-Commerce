@@ -1,6 +1,7 @@
 const Product = require("../modules/Product");
 const { productSchema, productUpdateSchema, searchProductSchema, deleteProductSchema, filterSchema} = require("../lib/validators/produc");
 const { z } = require("zod");
+const axios = require('axios');
 // const path = require('path');
 //const fs = require('fs');
 
